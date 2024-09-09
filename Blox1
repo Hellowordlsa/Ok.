@@ -602,6 +602,7 @@ if _G.Switch_Hub_Series_R then
 		ToggleFrameUi.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 		ToggleFrameUi.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
 		ToggleFrameUi.Size = UDim2.new(0, 148, 0, 48)
+		ToggleFrameUi.Draggable = true
 		
 		SearchStroke.Thickness = 1
 		SearchStroke.Name = ""
