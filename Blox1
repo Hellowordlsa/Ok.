@@ -599,16 +599,16 @@ if _G.Switch_Hub_Series_R then
 		
 		ToggleFrameUi.Name = "ToggleFrameUi"
 		ToggleFrameUi.Parent = Luna
-		ToggleFrameUi.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+		ToggleFrameUi.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 		ToggleFrameUi.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
-		ToggleFrameUi.Size = UDim2.new(0, 148, 0, 38)
+		ToggleFrameUi.Size = UDim2.new(0, 138, 0, 38)
 		
 		SearchStroke.Thickness = 1
 		SearchStroke.Name = ""
 		SearchStroke.Parent = ToggleFrameUi
 		SearchStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 		SearchStroke.LineJoinMode = Enum.LineJoinMode.Round
-		SearchStroke.Color = Color3.fromRGB(0, 255, 186) 
+		SearchStroke.Color = Color3.fromRGB(5, 5, 5)
 		SearchStroke.Transparency = 0
 		
 		UICorner.CornerRadius = UDim.new(0, 5)
@@ -617,7 +617,7 @@ if _G.Switch_Hub_Series_R then
 		ToggleImgUi.Name = "ToggleImgUi"
 		ToggleImgUi.Parent = ToggleFrameUi
 		ToggleImgUi.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
-		ToggleImgUi.BackgroundTransparency = 1
+		ToggleImgUi.BackgroundTransparency = 0
 		ToggleImgUi.Position = UDim2.new(0.0454545468, 0, 0.125000313, 0)
 		ToggleImgUi.Size = UDim2.new(0, 35, 0, 35)
 		ToggleImgUi.Image = ""
