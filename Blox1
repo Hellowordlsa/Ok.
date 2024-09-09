@@ -11245,14 +11245,14 @@ if _G.Switch_Hub_Series_R then
 					};
 					["description"] = "**Join Script**\n```lua\n"..tostring('game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport","'..game.JobId..'")').."\n```";
 					["author"] = {
-						["name"] = "Switch Hub (Notification)";
+						["name"] = "OMG Hub (Notification)";
 						["icon_url"] = "https://media.discordapp.net/attachments/1167889685411016756/1215942962467573860/SW.jpg?ex=65fe9621&is=65ec2121&hm=12d96eeae682639bd3987b5163ac2d2245d3fe09ad6d90a3a06e2a5fc5d98d90&=&format=webp&width=662&height=662";
 					};
 					["thumbnail"] = {
 						["url"] = "https://pbs.twimg.com/media/FDsZOHhVkAUsFeJ.jpg";
 					};
 					["footer"] = {
-						["text"] = "By Switch Hub";
+						["text"] = "By OMG Hub";
 						["icon_url"] = "https://media.discordapp.net/attachments/1167889685411016756/1215942962467573860/SW.jpg?ex=65fe9621&is=65ec2121&hm=12d96eeae682639bd3987b5163ac2d2245d3fe09ad6d90a3a06e2a5fc5d98d90&=&format=webp&width=662&height=662";
 					};
 					["timestamp"] = DateTime.now():ToIsoDate()
@@ -11307,14 +11307,14 @@ if _G.Switch_Hub_Series_R then
 					};
 					["description"] = "**Join Script**\n```lua\n"..tostring('game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport","'..game.JobId..'")').."\n```";
 					["author"] = {
-						["name"] = "Switch Hub (Notification)";
+						["name"] = "OMG Hub (Notification)";
 						["icon_url"] = "https://media.discordapp.net/attachments/1167889685411016756/1215942962467573860/SW.jpg?ex=65fe9621&is=65ec2121&hm=12d96eeae682639bd3987b5163ac2d2245d3fe09ad6d90a3a06e2a5fc5d98d90&=&format=webp&width=662&height=662";
 					};
 					["thumbnail"] = {
 						["url"] = "https://pbs.twimg.com/media/FDsZOHhVkAUsFeJ.jpg";
 					};
 					["footer"] = {
-						["text"] = "By Switch Hub";
+						["text"] = "By OMG Hub";
 						["icon_url"] = "https://media.discordapp.net/attachments/1167889685411016756/1215942962467573860/SW.jpg?ex=65fe9621&is=65ec2121&hm=12d96eeae682639bd3987b5163ac2d2245d3fe09ad6d90a3a06e2a5fc5d98d90&=&format=webp&width=662&height=662";
 					};
 					["timestamp"] = DateTime.now():ToIsoDate()
@@ -11352,11 +11352,11 @@ if _G.Switch_Hub_Series_R then
 						if game.Workspace.Enemies:FindFirstChild('rip_indra True Form') or game.ReplicatedStorage:FindFirstChild('rip_indra True Form') then
 							if #game.Players:GetChildren() <= 9 and not table.find(_G.Keep_JobX,tostring(game.JobId)) then
 								table.insert(_G.Keep_JobX,tostring(game.JobId))
-								SendBoss('https://discord.com/api/webhooks/1221652773091807264/N-tNF6oN_ISWQIkcaveueLDDPUz8erLg0gkga7n2fH1L0GD8FdfdUGs9kDgv_H2eR2Rx','rip_indra True Form')
+								SendBoss('https://discord.com/api/webhooks/1225318032323117117/VIN3K6X7lCjxmXsaOHCd_nXkep-eo3Fj2Daau0qVrYm49XWm9Yih8TXOd4rIlI5Y6ePt','rip_indra True Form')
 							end
 						end
 						if #game.Players:GetChildren() <= 3 then
-							SendFullMoon('https://discord.com/api/webhooks/1221652705513046087/4ur0toVQ-hLOk1ceKZpDql2PBKoCrBGETwy4doN9-a4PfuExB5juZ9zaHxYvTzndiAGS')
+							SendFullMoon('https://discord.com/api/webhooks/1225318032323117117/VIN3K6X7lCjxmXsaOHCd_nXkep-eo3Fj2Daau0qVrYm49XWm9Yih8TXOd4rIlI5Y6ePt')
 						end
 						if game:GetService("Lighting").Sky.MoonTextureId == "http://www.roblox.com/asset/?id=9709149052" and #game.Players:GetChildren() <= 9 then
 							local result = {}
@@ -11366,20 +11366,20 @@ if _G.Switch_Hub_Series_R then
 								table.insert(result, each)
 							end
 							if tonumber(result[1]) >= 0 and tonumber(result[1]) < 12 then
-								SendFullMoon('https://discord.com/api/webhooks/1221652726337896559/Oh6DerE386fvwmsezJC6g61N9eeEAt5DX0VP6DH6OZn61PE-to82F6lIJoedksEChVpL')
+								SendFullMoon('https://discord.com/api/webhooks/1225318032323117117/VIN3K6X7lCjxmXsaOHCd_nXkep-eo3Fj2Daau0qVrYm49XWm9Yih8TXOd4rIlI5Y6ePt')
 							end
 						end
 						if FullMoon_S and MysticIsland_S and not table.find(_G.Keep_Job,tostring(game.JobId)) and game:GetService("Lighting").LightingLayers.Night.Intensity.Value == 1 then
 							table.insert(_G.Keep_Job,tostring(game.JobId))
-							SendFullMoon('https://discord.com/api/webhooks/1215929211055771708/clo4RKpsZATTpTh1z2QxaZm26SpwcpGanx_Rri7WPvQfrpuXZkGMldMDqHJwDutYFGEQ')
+							SendFullMoon('https://discord.com/api/webhooks/1225318032323117117/VIN3K6X7lCjxmXsaOHCd_nXkep-eo3Fj2Daau0qVrYm49XWm9Yih8TXOd4rIlI5Y6ePt')
 							return
 						elseif FullMoon_S and not table.find(_G.Keep_Job,tostring(game.JobId)) and game:GetService("Lighting").LightingLayers.Night.Intensity.Value == 1 then
 							table.insert(_G.Keep_Job,tostring(game.JobId))
-							SendFullMoon('https://discord.com/api/webhooks/1215929162569617418/eOsglix-5u-gtUDn8wT_BclQuXSflRCT2E3qL9wlJx6eI3umzO2TXCVezCWBwydh-uYR')
+							SendFullMoon('https://discord.com/api/webhooks/1225318032323117117/VIN3K6X7lCjxmXsaOHCd_nXkep-eo3Fj2Daau0qVrYm49XWm9Yih8TXOd4rIlI5Y6ePt')
 							return
 						elseif MysticIsland_S and not table.find(_G.Keep_Job,tostring(game.JobId)) then
 							table.insert(_G.Keep_Job,tostring(game.JobId))
-							SendFullMoon('https://discord.com/api/webhooks/1215929078532542535/7ykd5BrmfvV7ewPwZ1rXilB-5u1qOMKBPr8P2eKXpzmGnejQ7hji13V4Et7eV64tACun')
+							SendFullMoon('https://discord.com/api/webhooks/1225318032323117117/VIN3K6X7lCjxmXsaOHCd_nXkep-eo3Fj2Daau0qVrYm49XWm9Yih8TXOd4rIlI5Y6ePt')
 							return
 						end	
 						wait(10)
@@ -11394,13 +11394,13 @@ if _G.Switch_Hub_Series_R then
 					if game.Workspace.Enemies:FindFirstChild('Cursed Captain') or game.ReplicatedStorage:FindFirstChild('Cursed Captain') then
 						if #game.Players:GetChildren() <= 10 and not table.find(_G.Keep_JobX,tostring(game.JobId)) then
 							table.insert(_G.Keep_JobX,tostring(game.JobId))
-							SendBoss('https://discord.com/api/webhooks/1221652750186713211/lx8EsPYmqEeswOLC0Mc6B6XkyDd9npXQ7Jq45PFeVjEaNMEWsqSSqwfh3qe5UJINPFhC','Cursed Captain')
+							SendBoss('https://discord.com/api/webhooks/1225318032323117117/VIN3K6X7lCjxmXsaOHCd_nXkep-eo3Fj2Daau0qVrYm49XWm9Yih8TXOd4rIlI5Y6ePt','Cursed Captain')
 						end
 					end
 					if game.Workspace.Enemies:FindFirstChild('Darkbeard') or game.ReplicatedStorage:FindFirstChild('Darkbeard') then
 						if #game.Players:GetChildren() <= 10 and not table.find(_G.Keep_JobX,tostring(game.JobId)) then
 							table.insert(_G.Keep_JobX,tostring(game.JobId))
-							SendBoss('https://discord.com/api/webhooks/1221652796277915751/PoTljiAd5tS62T0QiKLogngm2uieZTdo1RtHzJXDEsA7aETLBvHBKNPfSNEVw1xYsKG-','Darkbeard')
+							SendBoss('https://discord.com/api/webhooks/1225318032323117117/VIN3K6X7lCjxmXsaOHCd_nXkep-eo3Fj2Daau0qVrYm49XWm9Yih8TXOd4rIlI5Y6ePt','Darkbeard')
 						end
 					end
 				end)
