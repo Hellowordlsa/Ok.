@@ -599,9 +599,9 @@ if _G.Switch_Hub_Series_R then
 		
 		ToggleFrameUi.Name = "ToggleFrameUi"
 		ToggleFrameUi.Parent = Luna
-		ToggleFrameUi.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+		ToggleFrameUi.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
 		ToggleFrameUi.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
-		ToggleFrameUi.Size = UDim2.new(0, 148, 0, 48)
+		ToggleFrameUi.Size = UDim2.new(0, 138, 0, 48)
 		
 		SearchStroke.Thickness = 1
 		SearchStroke.Name = ""
@@ -748,58 +748,17 @@ if _G.Switch_Hub_Series_R then
 		Notify({
 			Description = '✅ Turn on and off (White Screen "Y")',
 			Title = "Switch Hub Kaitun | "..tostring(game.Players.LocalPlayer.Name),
-			Duration = 5
+			Duration = 1
 		})
 		Notify({
 			Description = '👾 Turn on and off (Farming "B")',
 			Title = "Automatic Farming",
-			Duration = 5
+			Duration = 1
 		})
-		local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/alichnochi/code/main/notification.status.lua", true))()
-		status_pass = Notification.new("message", 'Switch Hub Kaitun | ', "Status: ...")
-		status_pass:changeColor(Color3.fromRGB(15,15,15),Color3.fromRGB(42, 170, 138),Color3.fromRGB(255, 244, 0))
-		spawn(function()
-			while wait(1) do
-				pcall(function()
-					local scripttime=game.Workspace.DistributedGameTime
-					local seconds = scripttime%60
-					minutes = math.floor(scripttime/60%60)
-					hours = math.floor(scripttime/3600)
-					local tempo = string.format("%.0f Hr(s), %.0f Min(s), %.0f Sec(s)", hours ,minutes, seconds)
-					status_pass:changeHeading(tempo)
-				end) 
-			end
-		end)
 		if getgenv().Setting['White Screen'] then
 			game:GetService("RunService"):Set3dRenderingEnabled(false)
 			togle_up = false
 		end
-		game:GetService("UserInputService").InputBegan:Connect(function(input, isTyping)
-			if not isTyping then
-				if input.KeyCode == Enum.KeyCode.Y then
-					if togle_up then
-						game:GetService("RunService"):Set3dRenderingEnabled(false)
-						togle_up = false
-					else
-						game:GetService("RunService"):Set3dRenderingEnabled(true)
-						togle_up = true
-					end
-				end
-			end
-		end)
-		game:GetService("UserInputService").InputBegan:Connect(function(input, isTyping)
-			if not isTyping then
-				if input.KeyCode == Enum.KeyCode.B then
-					if togle_upx then
-						Auto_Farm_Kaitun = true
-						togle_upx = false
-					else
-						Auto_Farm_Kaitun = false
-						togle_upx = true
-					end
-				end
-			end
-		end)
 	else
 		_G.library = loadstring(game:HttpGet("https://raw.githubusercontent.com/soulju2097/Gui/main/README.md"))()
 		library = _G.library
