@@ -608,7 +608,7 @@ if _G.Switch_Hub_Series_R then
 		SearchStroke.Parent = ToggleFrameUi
 		SearchStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 		SearchStroke.LineJoinMode = Enum.LineJoinMode.Round
-		SearchStroke.Color = Color3.fromRGB(5, 5, 5)
+		SearchStroke.Color = SearchStroke.Color = Color3.fromRGB(0, 255, 186) 
 		SearchStroke.Transparency = 0
 		
 		UICorner.CornerRadius = UDim.new(0, 5)
