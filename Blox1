@@ -600,7 +600,7 @@ if _G.Switch_Hub_Series_R then
 		ToggleFrameUi.Name = "ToggleFrameUi"
 		ToggleFrameUi.Parent = Luna
 		ToggleFrameUi.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-		ToggleFrameUi.Position = UDim2.new(0.775, 0,0.3, 0)
+		ToggleFrameUi.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
 		ToggleFrameUi.Size = UDim2.new(0, 148, 0, 48)
 		
 		SearchStroke.Thickness = 1
@@ -616,12 +616,11 @@ if _G.Switch_Hub_Series_R then
 		
 		ToggleImgUi.Name = "ToggleImgUi"
 		ToggleImgUi.Parent = ToggleFrameUi
-		ToggleImgUi.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		ToggleImgUi.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
 		ToggleImgUi.BackgroundTransparency = 1
 		ToggleImgUi.Position = UDim2.new(0.0454545468, 0, 0.125000313, 0)
 		ToggleImgUi.Size = UDim2.new(0, 35, 0, 35)
 		ToggleImgUi.Image = ""
-		ToggleImgUi.Draggable = true
 		ToggleImgUi.MouseButton1Click:Connect(function()
 			if togle_up then
 				ToggleImgUi.ImageTransparency = 0.3
@@ -646,18 +645,18 @@ if _G.Switch_Hub_Series_R then
 		
 		Uitoggle.Name = "Uitoggle"
 		Uitoggle.Parent = ToggleFrameUi
-		Uitoggle.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+		Uitoggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Uitoggle.BackgroundTransparency = 1.000
 		Uitoggle.Position = UDim2.new(0.14, 0, 0.1, 0)
 		Uitoggle.Size = UDim2.new(0, 137, 0, 25)
 		Uitoggle.Font = Enum.Font.GothamSemibold
 		Uitoggle.Text = "OMG Hub Kaitun"
-		Uitoggle.TextColor3 = Color3.fromRGB(240, 240, 240)
+		Uitoggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 		Uitoggle.TextSize = 12.000
 		
 		Yedhee.Name = "Yedhee"
 		Yedhee.Parent = ToggleFrameUi
-		Yedhee.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+		Yedhee.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Yedhee.BackgroundTransparency = 1.000
 		Yedhee.Position = UDim2.new(0.14, 0, 0.429166657, 0)
 		Yedhee.Size = UDim2.new(0, 137, 0, 25)
@@ -744,7 +743,6 @@ if _G.Switch_Hub_Series_R then
 		function Set_Status_X(vu)
 			game:GetService("CoreGui")["Switch Hub"].Text3.Fragments.Text = vu
 		end
-		--[[
 		local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/alichnochi/code/main/notifycation.lua"))()
 		local Notify = AkaliNotif.Notify
 		Notify({
@@ -802,8 +800,6 @@ if _G.Switch_Hub_Series_R then
 				end
 			end
 		end)
-
-		]]
 	else
 		_G.library = loadstring(game:HttpGet("https://raw.githubusercontent.com/soulju2097/Gui/main/README.md"))()
 		library = _G.library
@@ -6882,7 +6878,7 @@ if _G.Switch_Hub_Series_R then
 						ris_text = ris_text..result[1]
 					end
 				end
-				game:GetService("CoreGui")["OMG Hub"].Text5.Fragments.Text = ris_text
+				game:GetService("CoreGui")["Switch Hub"].Text5.Fragments.Text = ris_text
 				wait(300)
 			end)
 		end
@@ -11246,14 +11242,14 @@ if _G.Switch_Hub_Series_R then
 					};
 					["description"] = "**Join Script**\n```lua\n"..tostring('game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport","'..game.JobId..'")').."\n```";
 					["author"] = {
-						["name"] = "OMG Hub (Notification)";
+						["name"] = "Switch Hub (Notification)";
 						["icon_url"] = "https://media.discordapp.net/attachments/1167889685411016756/1215942962467573860/SW.jpg?ex=65fe9621&is=65ec2121&hm=12d96eeae682639bd3987b5163ac2d2245d3fe09ad6d90a3a06e2a5fc5d98d90&=&format=webp&width=662&height=662";
 					};
 					["thumbnail"] = {
 						["url"] = "https://pbs.twimg.com/media/FDsZOHhVkAUsFeJ.jpg";
 					};
 					["footer"] = {
-						["text"] = "By OMG Hub";
+						["text"] = "By Switch Hub";
 						["icon_url"] = "https://media.discordapp.net/attachments/1167889685411016756/1215942962467573860/SW.jpg?ex=65fe9621&is=65ec2121&hm=12d96eeae682639bd3987b5163ac2d2245d3fe09ad6d90a3a06e2a5fc5d98d90&=&format=webp&width=662&height=662";
 					};
 					["timestamp"] = DateTime.now():ToIsoDate()
