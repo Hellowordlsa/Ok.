@@ -421,8 +421,8 @@ if _G.Switch_Hub_Series_R then
 		F_Level.AnchorPoint = Vector2.new(0.5, 0.5)
 		F_Level.Transparency = 1
 		game:GetService("Players").LocalPlayer.PlayerGui.Main.Fragments:Clone().Parent = game:GetService("CoreGui")["Switch Hub"].Level
-		game:GetService("CoreGui")["Switch Hub"].Level.Fragments.TextColor3 = Color3.fromRGB(0, 255, 186) 
-		game:GetService("CoreGui")["Switch Hub"].Level.Fragments.Text = "Switch Hub"
+		game:GetService("CoreGui")["Switch Hub"].Level.Fragments.TextColor3 = Color3.fromRGB(240, 240, 240) 
+		game:GetService("CoreGui")["Switch Hub"].Level.Fragments.Text = "OMG Hub"
 		game:GetService("CoreGui")["Switch Hub"].Level.Fragments.Size = UDim2.new(1, 0, 0, 40)
 		game:GetService("CoreGui")["Switch Hub"].Level.Fragments.TextXAlignment = 'Center'
 		game:GetService("CoreGui")["Switch Hub"].Level.Position = UDim2.new(0.5, 0, -0.2, 0)
@@ -468,7 +468,7 @@ if _G.Switch_Hub_Series_R then
 		F_Text3.AnchorPoint = Vector2.new(0.5, 0.5)
 		F_Text3.Transparency = 1
 		game:GetService("Players").LocalPlayer.PlayerGui.Main.Fragments:Clone().Parent = game:GetService("CoreGui")["Switch Hub"].Text3
-		game:GetService("CoreGui")["Switch Hub"].Text3.Fragments.TextColor3 = Color3.fromRGB(0, 255, 186) 
+		game:GetService("CoreGui")["Switch Hub"].Text3.Fragments.TextColor3 = Color3.fromRGB(240, 240, 240) 
 		game:GetService("CoreGui")["Switch Hub"].Text3.Fragments.Text = 'Status: Farm Level.'
 		game:GetService("CoreGui")["Switch Hub"].Text3.Fragments.Size = UDim2.new(1, 0, 0, 28)
 		game:GetService("CoreGui")["Switch Hub"].Text3.Fragments.TextXAlignment = 'Center'
@@ -548,7 +548,7 @@ if _G.Switch_Hub_Series_R then
 		F_Text4.AnchorPoint = Vector2.new(0.5, 0.5)
 		F_Text4.Transparency = 1
 		game:GetService("Players").LocalPlayer.PlayerGui.Main.Fragments:Clone().Parent = game:GetService("CoreGui")["Switch Hub"].Text4
-		game:GetService("CoreGui")["Switch Hub"].Text4.Fragments.TextColor3 = Color3.fromRGB(0, 255, 186) 
+		game:GetService("CoreGui")["Switch Hub"].Text4.Fragments.TextColor3 = Color3.fromRGB(240, 240, 240) 
 		game:GetService("CoreGui")["Switch Hub"].Text4.Fragments.Text = '...'
 		game:GetService("CoreGui")["Switch Hub"].Text4.Fragments.Size = UDim2.new(1, 0, 0, 35)
 		game:GetService("CoreGui")["Switch Hub"].Text4.Fragments.TextXAlignment = 'Center'
@@ -601,7 +601,7 @@ if _G.Switch_Hub_Series_R then
 		ToggleFrameUi.Parent = Luna
 		ToggleFrameUi.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 		ToggleFrameUi.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
-		ToggleFrameUi.Size = UDim2.new(0, 138, 0, 38)
+		ToggleFrameUi.Size = UDim2.new(0, 148, 0, 48)
 		
 		SearchStroke.Thickness = 1
 		SearchStroke.Name = ""
