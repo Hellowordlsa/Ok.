@@ -2539,7 +2539,6 @@ local function AutoSecondSea()
         end
       else
         PlayerTP(CFrame.new(1280, 27, -1380))
-        FireRemote("TravelDressrosa")
       end
     end
   end
@@ -6840,25 +6839,6 @@ if Sea3 then
     end
   })
 end
-Teleport:AddSection({"Teleport to Sea"})
-Teleport:AddButton({
-  Name = "Teleport to Sea 1",
-  Callback = function()
-    FireRemote("TravelMain")
-  end
-})
-Teleport:AddButton({
-  Name = "Teleport to Sea 2",
-  Callback = function()
-    FireRemote("TravelDressrosa")
-  end
-})
-Teleport:AddButton({
-  Name = "Teleport to Sea 3",
-  Callback = function()
-    FireRemote("TravelZou")
-  end
-})
 Teleport:AddSection({"Islands"})
 local IslandsList = {}
 if Sea1 then
