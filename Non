@@ -2562,7 +2562,6 @@ local function AutoThirdSea()
   task.spawn(function()
     while getgenv().AutoThirdSea do task.wait()
       QuestProgress = FireRemote("ZQuestProgress", "Check")
-      FireRemote("TravelZou")
     end
   end)  
   while getgenv().AutoThirdSea do task.wait()
