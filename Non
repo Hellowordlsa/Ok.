@@ -6089,9 +6089,6 @@ if Sea2 or Sea3 then
           if VerifyTool("Black Leg") then
             MasteryBlackLeg = GetToolLevel("Black Leg")
           end
-          if MasteryBlackLeg >= 400 and Sea3 then
-            FireRemote("TravelDressrosa")
-          end
           if KeyFind then
             FireRemote("BuyDeathStep")
           end
@@ -6303,9 +6300,6 @@ end
           if VerifyTool("Dragon Claw") then
             MasteryDragonClaw = GetToolLevel("Dragon Claw")
           end
-          if MasteryDragonClaw >= 400 and Sea2 then
-            FireRemote("TravelZou")
-          end
           if FireEssence and MasteryDragonClaw >= 400 then
             FireRemote("BuyDragonTalon")
           elseif not VerifyTool("Dragon Claw") and MasteryDragonClaw < 400 or not FireEssence and not VerifyTool("Dragon Claw") then
@@ -6470,9 +6464,6 @@ if Sea3 then
         local MasteryGodHuman = 0
         
         while getgenv().AutoGodHuman do task.wait()
-          if Sea2 then
-            FireRemote("TravelZou")
-          end  
           if VerifyTool("Black Leg") then
             MasteryBlackLeg = GetToolLevel("Black Leg")
           elseif VerifyTool("Electro") then
