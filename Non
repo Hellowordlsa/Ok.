@@ -595,7 +595,9 @@ end
 local function FastAttack()
   task.spawn(function()
     while getgenv().FastAttack do task.wait()
+    if not getgenv().AutoFarmMastery then
       module:attack()
+    end
     end
   end)
   end
@@ -1476,9 +1478,14 @@ local function AutoFarmMastery()
     pcall(function()DestroySkillWarn()end)   
     if Enemie and Enemie:FindFirstChild("HumanoidRootPart") then
       local Health = Enemie and Enemie:FindFirstChild("Humanoid") and Enemie.Humanoid.Health
+        if Health and Health > Enemie.Humanoid.MaxHealth * SkillHealth / 100 then
+        PlayerTP(Enemie.HumanoidRootPart.CFrame + getgenv().FarmPos)
+        pcall(function()ActiveHaki()EquipToolTip("Melee")BringNPC(Enemie)end)     
+        end
       if Health and Health < Enemie.Humanoid.MaxHealth * SkillHealth / 100 then
         PlayerTP(Enemie.HumanoidRootPart.CFrame + Vector3.new(0, getgenv().FarmDistance, 0))
-        pcall(function()ActiveHaki()EquipToolTip(Tool)BringNPC(Enemie, true)end)
+        pcall(function()ActiveHaki()PlayerClick()EquipToolTip(Tool)BringNPC(Enemie, true)end)        
+     end     
         if getgenv().AimBotSkill then
           AimBotPart(Enemie.HumanoidRootPart)
         end
@@ -1496,11 +1503,7 @@ local function AutoFarmMastery()
         end
         if getgenv().SkillF then
           KeyboardPress("F")
-        end
-      elseif Health and Health >= Enemie.Humanoid.MaxHealth * SkillHealth / 100 then
-        PlayerTP(Enemie.HumanoidRootPart.CFrame + getgenv().FarmPos)
-        pcall(function()ActiveHaki()EquipToolTip("Melee")BringNPC(Enemie)end)     
-      end    
+        end    
     else
       TweenNPCSpawn(QuestTween, Quest.NPCs)
     end
@@ -1565,7 +1568,7 @@ local toPos11, toPos22, toPos33, toPos44 = true
       local plrPP = plrChar and plrChar.PrimaryPart
       local plrH = plrChar and plrChar:FindFirstChild("Humanoid")     
       if plrH and plrH.Sit then plrH.Sit = false end
-     PlayerTP(workspace.Map.MysticIsland.PrimaryPart.CFrame*CFrame.new(0,250,0))
+     PlayerTP(workspace.Map.MysticIsland.WorldPivot)
     elseif not Boat then
       local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-6123, 16, -2247)).Magnitude
       if BuyBoatDistance <= 5 then
@@ -3675,7 +3678,7 @@ MirageTab:AddToggle({Name = "Auto Find Mirage Island",Callback = function(Value)
     getgenv().AutoMirageIsland = Value;AutoKitsuneIsland()
   end})
 MirageTab:AddToggle({
-	Name = "Auto Teleport to Mirage",
+	Name = "Teleport to Mirage",
 	Default = false,
 	Callback = function(Value)
 		getgenv().TpMirage = Value
@@ -3726,13 +3729,13 @@ pcall(function()
 while wait() do
 if getgenv().TpAdvanced then
 pcall(function()
- if game:GetService("Workspace").NPCs:FindFirstChild("Advanced Fruit Dealer") then
 for i,v in pairs(game:GetService("Workspace").NPCs:GetChildren()) do
 							if v.Name == "Advanced Fruit Dealer" then
-								PlayerTP(v.HumanoidRootPart.CFrame* CFrame.new(0,0,0))
+								PlayerTP(v.HumanoidRootPart.CFrame)
+								else
+								PlayerTP(game.ReplicatedStorage.NPCs["Advanced Fruit Dealer"].HumanoidRootPart.CFrame)
 							end
 						end
-                end
  end)
 end
 end
