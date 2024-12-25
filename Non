@@ -4586,13 +4586,16 @@ elseif Sea2 then
   end})
 end
 MainFarm:AddSection({"Christmas"})
-local TimeLabel = MainFarm:AddParagraph({"Go to Island for see/collect gift work!"})
+local TimeLabel = MainFarm:AddParagraph({"Go to Island for See/Collect Gift Work!"})
 task.spawn(function()
   local Counter = workspace:WaitForChild("Countdown", 9e9)
   local SurfaceGui = Counter:WaitForChild("SurfaceGui", 9e9)
   local TextLabel = SurfaceGui:WaitForChild("TextLabel", 9e9)  
   while task.wait() do
-    TimeLabel:SetTitle("Time to Next gift : " .. TextLabel.Text)    
+    TimeLabel:SetTitle("Time to Next Gift : " .. TextLabel.Text)    
+    if not Counter then
+    TimeLabel:SetTitle("Go to Island for See/Collect Gift Work!")   
+    end
     if TextLabel.Text ~= "STARTING!" then
       local TimerL, Timer = TextLabel.Text:split(":"), 0
       if tonumber(TimerL[2]) >= 1 then
