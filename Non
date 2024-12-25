@@ -34,8 +34,8 @@ task.spawn(function()
       or getgenv().AutoFinishTrial
       or getgenv().AutoWoodPlanks
       or getgenv().AutoFarm_Level
-      -- or getgenv().AutoGift
-      -- or getgenv().AutoCandy
+      or getgenv().AutoGift
+      or getgenv().AutoCandy
       or getgenv().AutoFarmSea
       or getgenv().AutoEliteHunter
       or getgenv().AutoPiratesSea
@@ -4585,7 +4585,7 @@ elseif Sea2 then
     getgenv().AutoFactory = Value;AutoFactory()
   end})
 end
---[[MainFarm:AddSection({"Christmas"})
+MainFarm:AddSection({"Christmas"})
 local TimeLabel = MainFarm:AddLabel({"Text", "Time for next gift : nil"})
 task.spawn(function()
   local Counter = workspace:WaitForChild("Countdown", 9e9)
@@ -4676,7 +4676,7 @@ MainFarm:AddToggle({"Auto Gift", false, function(Value)
       end
     end
   end)
-end})]]
+end})
 
 if Sea3 then
   MainFarm:AddSection({"Bone"})
@@ -7279,17 +7279,17 @@ Misc:AddToggle({"Anti AFK", true, function(Value)
     end
   end)
 end, "Misc/AntiAFK"})
---[[Shop:AddSection({"Christmas"})
+Shop:AddSection({"Christmas"})
 Shop:AddButton({"Buy 2x EXP (15 mins.) < 50 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 1, 1)end})
 Shop:AddButton({"Stats Refund < 75 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 1, 2)end})
 Shop:AddButton({"Race Reroll < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 1, 3)end})
 Shop:AddSection({""})
 Shop:AddButton({"Buy 200 Frags < 50 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})
-Shop:AddButton({"Buy 500 Frags < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})]]
---[[Shop:AddSection({"Bones"})
+Shop:AddButton({"Buy 500 Frags < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})
+Shop:AddSection({"Bones"})
 Shop:AddButton({"Buy Surprise < 50 Bones >", function()FireRemote("Bones", "Buy", 1, 1)end})
 Shop:AddButton({"Stats Refund < 150 Bones >", function()FireRemote("Bones", "Buy", 1, 2)end})
-Shop:AddButton({"Race Reroll < 300 Bones >", function()FireRemote("Bones", "Buy", 1, 3)end})]]
+Shop:AddButton({"Race Reroll < 300 Bones >", function()FireRemote("Bones", "Buy", 1, 3)end})
 Shop:AddSection({"Ectoplasm"})
 Shop:AddButton({"Midnight Blade", function()end})
 Shop:AddButton({"Bizarre Rifle", function()end})
