@@ -413,7 +413,7 @@ local function TweenNPCSpawn(pos, NPC)
         end
       end
     until not getgenv().AutoFarm_Level or Enemies:FindFirstChild(NPC or Quest[3])
-    -- or getgenv().TimeToGift < 90
+   or getgenv().TimeToGift < 90
     return
   end
 end
@@ -4684,6 +4684,14 @@ if Sea2 then
           if Enemie then
             PlayerTP(Enemie.HumanoidRootPart.CFrame + getgenv().FarmPos)
             pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemie, true)end)
+            else
+            if Sea3 then
+          PlayerTP(CFrame.new(-16666, 105, 1577))
+        elseif Sea2 then
+          PlayerTP(CFrame.new(-3339, 290, -10412))
+        elseif Sea1 then
+          PlayerTP(CFrame.new(5391, 70, 4023))
+        end
           end
         end
       end
@@ -4746,10 +4754,10 @@ MainFarm:AddToggle({"Auto Gift", false, function(Value)
     while getgenv().AutoGift do task.wait()
       local Gift, Prompt = GetGift()      
       if Gift and Gift.PrimaryPart then
-        PlayerTP(Gift.PrimaryPart.CFrame)
+        PlayerTP(Gift.PrimaryPart.CFrame)      
         if Prompt then
           fireproximityprompt(Prompt)
-        end
+        end        
       elseif getgenv().TimeToGift < 90 then
         if Sea3 then
           PlayerTP(CFrame.new(-1076, 14, -14437))
@@ -4758,10 +4766,30 @@ MainFarm:AddToggle({"Auto Gift", false, function(Value)
         elseif Sea1 then
           PlayerTP(CFrame.new(1007, 15, -3805))
         end
-      end
+      end      
     end
   end)
 end})
+
+spawn(function()
+pcall(function()
+while wait() do
+if getgenv().AutoGift then
+pcall(function()
+if not Gift then
+       if Sea3 then
+          PlayerTP(CFrame.new(-1076, 14, -14437))
+        elseif Sea2 then
+          PlayerTP(CFrame.new(-5219, 15, 1532))
+        elseif Sea1 then
+          PlayerTP(CFrame.new(1007, 15, -3805))
+        end
+        end
+ end)
+end
+end
+end)
+end)
 
 if Sea3 then
   MainFarm:AddSection({"Bone"})
