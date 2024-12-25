@@ -3268,29 +3268,6 @@ AutoSea:AddToggle({Name = "Auto Find Prehistoric Island",Callback = function(Val
     getgenv().AutoPrehistoricIsland = Value;AutoKitsuneIsland()
   end})
 AutoSea:AddToggle({
-	Name = "Auto Start Prehistoric Island",
-	Default = false,
-	Callback = function(Value)
-		getgenv().StartPrehistoric = Value
-	end
-})
-spawn(function()
-pcall(function()
-while wait() do
-if getgenv().StartPrehistoric then
-pcall(function()
-for i,v in pairs(game:GetService("Workspace").Map.PrehistoricIsland.Core.PrehistoricRelic:GetDescendants()) do
-if v.ClassName == "ProximityPrompt" then
-fireproximityprompt(v,30)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Parent.WorldPivot 
-end
-end
- end)
-end
-end
-end)
-end) 
-AutoSea:AddToggle({
 	Name = "Auto Collect Dragon Egg",
 	Default = false,
 	Callback = function(Value)
@@ -4608,137 +4585,14 @@ task.spawn(function()
     end
   end
 end)
-if Sea3 then
-  MainFarm:AddToggle({"Auto Farm Candy", false, function(Value)
-    getgenv().AutoCandy = Value
-    task.spawn(function()
-      local Enemies1 = workspace:WaitForChild("Enemies", 9e9)
-      local Enemies2 = ReplicatedStorage      
-      local function GetProxyNPC()
-        local Distance = math.huge
-        local NPC = nil
-        local plrChar = Player and Player.Character and Player.Character.PrimaryPart        
-        for _,npc in pairs(Enemies1:GetChildren()) do
-          if npc.Name == "Skull Slayer" or npc.Name == "Isle Champion" or npc.Name == "Serpent Hunter" then
-            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
-              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
-              NPC = npc
-            end
-          end
-        end
-        for _,npc in pairs(Enemies2:GetChildren()) do
-          if npc.Name == "Skull Slayer" or npc.Name == "Isle Champion" or npc.Name == "Serpent Hunter" then
-            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
-              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
-              NPC = npc
-            end
-          end
-        end
-        return NPC
-      end     
-      while getgenv().AutoCandy do task.wait()
-        if Configure("Candy") then
-        else
-          local Enemie = GetProxyNPC()
-          if Enemie then
-            PlayerTP(Enemie.HumanoidRootPart.CFrame + getgenv().FarmPos)
-            pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemie, true)end)
-          end
-        end
-      end
-    end)
-  end})
-end
-if Sea2 then
-  MainFarm:AddToggle({"Auto Farm Candy", false, function(Value)
-    getgenv().AutoCandy = Value
-    task.spawn(function()
-      local Enemies1 = workspace:WaitForChild("Enemies", 9e9)
-      local Enemies2 = ReplicatedStorage      
-      local function GetProxyNPC()
-        local Distance = math.huge
-        local NPC = nil
-        local plrChar = Player and Player.Character and Player.Character.PrimaryPart        
-        for _,npc in pairs(Enemies1:GetChildren()) do
-          if npc.Name == "Water Fighter" or npc.Name == "Sea Soldier" then
-            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
-              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
-              NPC = npc
-            end
-          end
-        end
-        for _,npc in pairs(Enemies2:GetChildren()) do
-          if npc.Name == "Water Fighter" or npc.Name == "Sea Soldier" then
-            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
-              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
-              NPC = npc
-            end
-          end
-        end
-        return NPC
-      end     
-      while getgenv().AutoCandy do task.wait()
-        if Configure("Candy") then
-        else
-          local Enemie = GetProxyNPC()
-          if Enemie then
-            PlayerTP(Enemie.HumanoidRootPart.CFrame + getgenv().FarmPos)
-            pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemie, true)end)
-            else
-            if Sea3 then
-          PlayerTP(CFrame.new(-16666, 105, 1577))
-        elseif Sea2 then
-          PlayerTP(CFrame.new(-3339, 290, -10412))
-        elseif Sea1 then
-          PlayerTP(CFrame.new(5391, 70, 4023))
-        end
-          end
-        end
-      end
-    end)
-  end})
-end
-if Sea1 then
-  MainFarm:AddToggle({"Auto Farm Candy", false, function(Value)
-    getgenv().AutoCandy = Value
-    task.spawn(function()
-      local Enemies1 = workspace:WaitForChild("Enemies", 9e9)
-      local Enemies2 = ReplicatedStorage      
-      local function GetProxyNPC()
-        local Distance = math.huge
-        local NPC = nil
-        local plrChar = Player and Player.Character and Player.Character.PrimaryPart        
-        for _,npc in pairs(Enemies1:GetChildren()) do
-          if npc.Name == "Galley Captain" or npc.Name == "Galley Pirate" then
-            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
-              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
-              NPC = npc
-            end
-          end
-        end
-        for _,npc in pairs(Enemies2:GetChildren()) do
-          if npc.Name == "Galley Captain" or npc.Name == "Galley Pirate" then
-            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
-              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
-              NPC = npc
-            end
-          end
-        end
-        return NPC
-      end     
-      while getgenv().AutoCandy do task.wait()
-        if Configure("Candy") then
-        else
-          local Enemie = GetProxyNPC()
-          if Enemie then
-            PlayerTP(Enemie.HumanoidRootPart.CFrame + getgenv().FarmPos)
-            pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemie, true)end)
-          end
-        end
-      end
-    end)
-  end})
-end
+MainFarm:AddToggle({
+	Name = "Auto Farm Candy",
+	Default = false,
+	Callback = function(Value)
+		getgenv().AutoFarm_Level = Value
+		AutoFarm_Level()
+	end
+})
 MainFarm:AddToggle({"Auto Gift", false, function(Value)
   getgenv().AutoGift = Value
   task.spawn(function()
@@ -4760,9 +4614,9 @@ MainFarm:AddToggle({"Auto Gift", false, function(Value)
         end        
       elseif getgenv().TimeToGift < 90 then
         if Sea3 then
-          PlayerTP(CFrame.new(-1076, 14, -14437))
+          PlayerTP(CFrame.new(-1085, 62, -14497))
         elseif Sea2 then
-          PlayerTP(CFrame.new(-5219, 15, 1532))
+          PlayerTP(CFrame.new(-6128, 55, 1797))
         elseif Sea1 then
           PlayerTP(CFrame.new(1007, 15, -3805))
         end
@@ -4778,9 +4632,9 @@ if getgenv().AutoGift then
 pcall(function()
 if not Gift then
        if Sea3 then
-          PlayerTP(CFrame.new(-1076, 14, -14437))
+          PlayerTP(CFrame.new(-1085, 62, -14497))
         elseif Sea2 then
-          PlayerTP(CFrame.new(-5219, 15, 1532))
+          PlayerTP(CFrame.new(-6128, 55, 1797))
         elseif Sea1 then
           PlayerTP(CFrame.new(1007, 15, -3805))
         end
@@ -6957,7 +6811,6 @@ if Sea3 then
     end
   })
 end
-Teleport:AddSection({"Islands"})
 local IslandsList = {}
 if Sea1 then
   IslandsList = {
@@ -6976,7 +6829,8 @@ if Sea1 then
     "Prison",
     "Magma Village",
     "Under Water Island",
-    "Fountain City"
+    "Fountain City",
+    "Candy Cane Island"
   }
 elseif Sea2 then
   IslandsList = {
@@ -6992,7 +6846,8 @@ elseif Sea2 then
     "Cursed Ship",
     "Ice Castle",
     "Forgotten Island",
-    "Ussop Island"
+    "Ussop Island",
+    "Candy Cane Island"
   }
 elseif Sea3 then
   IslandsList = {
@@ -7012,6 +6867,29 @@ elseif Sea3 then
     "Tiki Outpost"
   }
 end
+
+Teleport:AddSection("Teleport to Sea")
+Teleport:AddButton({
+  Title = "Teleport to Sea 1",
+  Callback = function()
+    FireRemote("TravelMain")
+  end
+})
+
+Teleport:AddButton({
+  Title = "Teleport to Sea 2",
+  Callback = function()
+    FireRemote("TravelDressrosa")
+  end
+})
+
+Teleport:AddButton({
+  Title = "Teleport to Sea 3",
+  Callback = function()
+    FireRemote("TravelZou")
+  end
+})
+Teleport:AddSection({"Islands"})
 Teleport:AddDropdown({
   Name = "Select Island",
   Options = IslandsList,
@@ -7059,6 +6937,8 @@ local TPToggle = Teleport:AddToggle({Name = "Teleport To Island",Callback = func
           PlayerTP(CFrame.new(-7895, 5547, -380))
         elseif Island == "Fountain City" then
           PlayerTP(CFrame.new(5226, 39, 4055))
+          elseif Island == "Candy Cane Island" then
+          PlayerTP(CFrame.new(1531, 55, -2976))
         end
       elseif Sea2 then
         -- Sea 2 Teleports
@@ -7088,6 +6968,8 @@ local TPToggle = Teleport:AddToggle({Name = "Teleport To Island",Callback = func
           PlayerTP(CFrame.new(-3050, 240, -10178))
         elseif Island == "Ussop Island" then
           PlayerTP(CFrame.new(4816, 8, 2863))
+          elseif Island == "Candy Cane Island" then
+          PlayerTP(CFrame.new(-6128, 55, 1797))
         end
       elseif Sea3 then
         -- Sea 3 Teleports
@@ -7116,7 +6998,7 @@ local TPToggle = Teleport:AddToggle({Name = "Teleport To Island",Callback = func
         elseif Island == "Cake Island" then
           PlayerTP(CFrame.new(-1897, 14, -11576))
         elseif Island == "Candy Cane Island" then
-          PlayerTP(CFrame.new(-1038, 10, -14076))
+          PlayerTP(CFrame.new(-1085, 62, -14497))
         elseif Island == "Tiki Outpost" then
           PlayerTP(CFrame.new(-16224, 9, 439))
         end
