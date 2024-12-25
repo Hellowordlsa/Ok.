@@ -4618,7 +4618,7 @@ MainFarm:AddToggle({"Auto Gift", false, function(Value)
         elseif Sea2 then
           PlayerTP(CFrame.new(-6128, 55, 1797))
         elseif Sea1 then
-          PlayerTP(CFrame.new(1007, 15, -3805))
+          PlayerTP(CFrame.new(1531, 55, -2976)))
         end
       end      
     end
@@ -4636,7 +4636,7 @@ if not Gift then
         elseif Sea2 then
           PlayerTP(CFrame.new(-6128, 55, 1797))
         elseif Sea1 then
-          PlayerTP(CFrame.new(1007, 15, -3805))
+          PlayerTP(CFrame.new(1531, 55, -2976))
         end
         end
  end)
