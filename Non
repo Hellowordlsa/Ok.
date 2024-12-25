@@ -4268,7 +4268,7 @@ game:GetService("Players").LocalPlayer.Backpack.Awakening.RemoteFunction:InvokeS
         end)
     end)
 MirageTab:AddToggle({
-	Name = "Auto Buy Gear",
+	Name = "Auto Upgrade Gear",
 	Default = false,
 	Callback = function(Value)
 		getgenv().BuyGear = Value
