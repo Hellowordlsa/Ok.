@@ -4586,7 +4586,7 @@ elseif Sea2 then
   end})
 end
 MainFarm:AddSection({"Christmas"})
-local TimeLabel = MainFarm:AddLabel({"Text", "Time for next gift : nil"})
+local TimeLabel = MainFarm:AddParagraph({"Time for next gift : nil"})
 task.spawn(function()
   local Counter = workspace:WaitForChild("Countdown", 9e9)
   local SurfaceGui = Counter:WaitForChild("SurfaceGui", 9e9)
@@ -4616,7 +4616,7 @@ if Sea3 then
         local NPC = nil
         local plrChar = Player and Player.Character and Player.Character.PrimaryPart        
         for _,npc in pairs(Enemies1:GetChildren()) do
-          if npc.Name == "Isle Champion" or npc.Name == "Sun-kissed Warrior" or npc.Name == "Island Boy" or npc.Name == "Isle Outlaw" then
+          if npc.Name == "Skull Slayer" or npc.Name == "Isle Champion" or npc.Name == "Sun-kissed Warrior" or npc.Name == "Island Boy" then
             if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
               Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
               NPC = npc
@@ -4624,7 +4624,89 @@ if Sea3 then
           end
         end
         for _,npc in pairs(Enemies2:GetChildren()) do
-          if npc.Name == "Isle Champion" or npc.Name == "Sun-kissed Warrior" or npc.Name == "Island Boy" or npc.Name == "Isle Outlaw" then
+          if npc.Name == "Skull Slayer" or npc.Name == "Isle Champion" or npc.Name == "Sun-kissed Warrior" or npc.Name == "Island Boy" then
+            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
+              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
+              NPC = npc
+            end
+          end
+        end
+        return NPC
+      end     
+      while getgenv().AutoCandy do task.wait()
+        if Configure("Candy") then
+        else
+          local Enemie = GetProxyNPC()
+          if Enemie then
+            PlayerTP(Enemie.HumanoidRootPart.CFrame + getgenv().FarmPos)
+            pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemie, true)end)
+          end
+        end
+      end
+    end)
+  end})
+end
+if Sea2 then
+  MainFarm:AddToggle({"Auto Farm Candy", false, function(Value)
+    getgenv().AutoCandy = Value
+    task.spawn(function()
+      local Enemies1 = workspace:WaitForChild("Enemies", 9e9)
+      local Enemies2 = ReplicatedStorage      
+      local function GetProxyNPC()
+        local Distance = math.huge
+        local NPC = nil
+        local plrChar = Player and Player.Character and Player.Character.PrimaryPart        
+        for _,npc in pairs(Enemies1:GetChildren()) do
+          if npc.Name == "Water Fighter" or npc.Name == "Sea Soldier" then
+            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
+              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
+              NPC = npc
+            end
+          end
+        end
+        for _,npc in pairs(Enemies2:GetChildren()) do
+          if npc.Name == "Water Fighter" or npc.Name == "Sea Soldier" then
+            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
+              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
+              NPC = npc
+            end
+          end
+        end
+        return NPC
+      end     
+      while getgenv().AutoCandy do task.wait()
+        if Configure("Candy") then
+        else
+          local Enemie = GetProxyNPC()
+          if Enemie then
+            PlayerTP(Enemie.HumanoidRootPart.CFrame + getgenv().FarmPos)
+            pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemie, true)end)
+          end
+        end
+      end
+    end)
+  end})
+end
+if Sea1 then
+  MainFarm:AddToggle({"Auto Farm Candy", false, function(Value)
+    getgenv().AutoCandy = Value
+    task.spawn(function()
+      local Enemies1 = workspace:WaitForChild("Enemies", 9e9)
+      local Enemies2 = ReplicatedStorage      
+      local function GetProxyNPC()
+        local Distance = math.huge
+        local NPC = nil
+        local plrChar = Player and Player.Character and Player.Character.PrimaryPart        
+        for _,npc in pairs(Enemies1:GetChildren()) do
+          if npc.Name == "Galley Captain" or npc.Name == "Galley Pirate" then
+            if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
+              Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
+              NPC = npc
+            end
+          end
+        end
+        for _,npc in pairs(Enemies2:GetChildren()) do
+          if npc.Name == "Galley Captain" or npc.Name == "Galley Pirate" then
             if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
               Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
               NPC = npc
