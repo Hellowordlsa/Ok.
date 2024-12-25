@@ -4619,7 +4619,7 @@ if Sea3 then
         local NPC = nil
         local plrChar = Player and Player.Character and Player.Character.PrimaryPart        
         for _,npc in pairs(Enemies1:GetChildren()) do
-          if npc.Name == "Skull Slayer" or npc.Name == "Isle Champion" or npc.Name == "Sun-kissed Warrior" or npc.Name == "Island Boy" then
+          if npc.Name == "Skull Slayer" or npc.Name == "Isle Champion" or npc.Name == "Serpent Hunter" then
             if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
               Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
               NPC = npc
@@ -4627,7 +4627,7 @@ if Sea3 then
           end
         end
         for _,npc in pairs(Enemies2:GetChildren()) do
-          if npc.Name == "Skull Slayer" or npc.Name == "Isle Champion" or npc.Name == "Sun-kissed Warrior" or npc.Name == "Island Boy" then
+          if npc.Name == "Skull Slayer" or npc.Name == "Isle Champion" or npc.Name == "Serpent Hunter" then
             if plrChar and npc and npc:FindFirstChild("HumanoidRootPart") and (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude <= Distance then
               Distance = (plrChar.Position - npc.HumanoidRootPart.Position).Magnitude
               NPC = npc
