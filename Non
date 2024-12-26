@@ -4728,18 +4728,6 @@ end
 end)
 end)
 
-spawn(function()
-pcall(function()
-while wait() do
-if getgenv().AutoGift then
-pcall(function()
-
- end)
-end
-end
-end)
-end)
-
 if Sea3 then
   MainFarm:AddSection({"Bone"})
 local BoneCheck = MainFarm:AddParagraph({""})
