@@ -361,6 +361,7 @@ task.spawn(function()
     }
   elseif Sea3 then
     PortalPos = {
+     Vector3.new(-5092, 315, -3130), -- Castle on the Sea
       Vector3.new(28286, 14897, 103) -- Temple of Time
     }
   end
@@ -396,6 +397,14 @@ local function PlayerTP(Tween_Pos)
       TweenInfo.new(Distance / getgenv().TweenSpeed, Enum.EasingStyle.Linear),
       {CFrame = Tween_Pos}):Play()
     end
+  end
+end
+local function BoatTP(Boat, pos)
+  if Boat then
+    local Distance = (Boat.PrimaryPart.Position - pos.p).Magnitude
+    game:GetService("TweenService"):Create(Boat.PrimaryPart,
+    TweenInfo.new(Distance / getgenv().SeaBoatSpeed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+    {CFrame = pos}):Play()
   end
 end
 local function KillAura()
@@ -1867,7 +1876,7 @@ local function AutoFarmSea()
                   BoatTP(Boat, Boat.PrimaryPart.CFrame)
                 end
               elseif Boat.PrimaryPart then
-                local vector3 = Vector3.new(0, math.clamp(Boat.PrimaryPart.Position.Y + 5, 0, 600), 0)
+                local vector3 = Vector3.new(0, math.clamp(Boat.PrimaryPart.Position.Y + 250, 0, 600), 0)
                 Boat.PrimaryPart.CFrame = Boat.PrimaryPart.CFrame + vector3
               end
             end
@@ -4628,7 +4637,7 @@ MainFarm:AddToggle({
 		AutoFarm_Level()
 	end
 })
-MainFarm:AddToggle({"Auto Gift", false, function(Value)
+MainFarm:AddToggle({"Auto Collect Gift", false, function(Value)
   getgenv().AutoGift = Value
   task.spawn(function()
     local function GetGift()
@@ -4659,6 +4668,57 @@ MainFarm:AddToggle({"Auto Gift", false, function(Value)
     end
   end)
 end})
+
+MainFarm:AddToggle({
+	Name = "Auto Eat Holiday Gift",
+	Default = false,
+	Callback = function(Value)
+		getgenv().EatHoliday = Value
+	end
+})
+spawn(function()
+pcall(function()
+while wait() do
+if getgenv().EatHoliday then
+pcall(function()
+for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+								if string.find(v.Name, "Gift") then
+game:GetService("Players").LocalPlayer.Character[v.Name].ConsumeEvent:InvokeServer()
+								end
+								end
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+								if string.find(v.Name, "Gift") then
+game:GetService("Players").LocalPlayer.Backpack[v.Name].ConsumeEvent:InvokeServer()
+								end
+								end
+ end)
+end
+end
+end)
+end)
+
+MainFarm:AddToggle({
+	Name = "Auto Store Holiday Gift",
+	Default = false,
+	Callback = function(Value)
+		getgenv().StoreHolidayGift = Value
+	end
+})
+spawn(function()
+pcall(function()
+while wait() do
+if getgenv().StoreHolidayGift then
+pcall(function()
+local args = {
+    [1] = "StoreHolidayGift"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+ end)
+end
+end
+end)
+end)
 
 spawn(function()
 pcall(function()
