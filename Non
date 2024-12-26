@@ -4664,6 +4664,14 @@ MainFarm:AddToggle({"Auto Collect Gift", false, function(Value)
         elseif Sea1 then
           PlayerTP(CFrame.new(1531, 55, -2976))
         end
+        else
+       if Sea3 then
+          PlayerTP(CFrame.new(-1085, 62, -14497))
+        elseif Sea2 then
+          PlayerTP(CFrame.new(-6128, 55, 1797))
+        elseif Sea1 then
+          PlayerTP(CFrame.new(1531, 55, -2976))
+        end
       end      
     end
   end)
@@ -4725,15 +4733,7 @@ pcall(function()
 while wait() do
 if getgenv().AutoGift then
 pcall(function()
-if not Gift then
-       if Sea3 then
-          PlayerTP(CFrame.new(-1085, 62, -14497))
-        elseif Sea2 then
-          PlayerTP(CFrame.new(-6128, 55, 1797))
-        elseif Sea1 then
-          PlayerTP(CFrame.new(1531, 55, -2976))
-        end
-        end
+
  end)
 end
 end
