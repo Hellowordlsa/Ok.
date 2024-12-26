@@ -5570,10 +5570,12 @@ pcall(function()
 while wait() do
 if getgenv().AutoFarmRaid then
 pcall(function()
+ if not Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible and VerifyTool("Special Microchip") then
                   if Sea2 and not workspace.Map.CircleIsland.RaidSummon2.Button:FindFirstChild("Main") then
                   PlayerTP(CFrame.new(-5897, 18, -5096))
                elseif Sea3 and not workspace.Map["Boat Castle"].RaidSummon2.Button:FindFirstChild("Main") then
                   PlayerTP(CFrame.new(-16224, 9, 439))
+                  end
                   end
  end)
 end
