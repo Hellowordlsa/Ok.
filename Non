@@ -351,7 +351,7 @@ local function PlayerTP(Tween_Pos)
   local Distance = (plrPP.Position - Tween_Pos.p).Magnitude
   if block then
       local tween = game:GetService("TweenService"):Create(block,
-      TweenInfo.new(Distance / getgenv().TweenSpeed, Enum.EasingStyle.Linear),
+      TweenInfo.new(Distance / tonumber(getgenv().TweenSpeed * 1.8), Enum.EasingStyle.Linear),
       {CFrame = Tween_Pos}):Play()
     end
   end
