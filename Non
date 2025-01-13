@@ -343,18 +343,63 @@ local BossListT = {
   "Cake Queen",
   "Longma"
 }
+task.spawn(function()
+  local PortalPos = {}
+  if Sea1 then
+    PortalPos = {
+      Vector3.new(-4652, 873, -1754), -- Sky Island 1
+      Vector3.new(-7895, 5547, -380), -- Sky Island 2
+      Vector3.new(61164, 5, 1820), -- Under Water Island
+      Vector3.new(3865, 5, -1926) -- Under Water Island Entrace
+    }
+  elseif Sea2 then
+    PortalPos = {
+      Vector3.new(-317, 331, 597), -- Flamingo Mansion
+      Vector3.new(2283, 15, 867), -- Flamingo Room
+      Vector3.new(923, 125, 32853), -- Cursed Ship
+      Vector3.new(-6509, 83, -133) -- Zombie Island0
+    }
+  elseif Sea3 then
+    PortalPos = {
+      Vector3.new(-12471, 374, -7551), -- Mansion
+      Vector3.new(5756, 610, -282), -- Hydra Island
+      Vector3.new(-5092, 315, -3130), -- Castle on the Sea
+      Vector3.new(-12001, 332, -8861), -- Floating Turtle
+      Vector3.new(5319, 23, -93), -- Beautiful Pirate
+      Vector3.new(28286, 14897, 103) -- Temple of Time
+    }
+  end
+  function GetTPPos(position)
+    local NearPos = math.huge
+    local TpPos = Vector3.new()
+    table.foreach(PortalPos, function(___, pos)
+      if (pos - position).Magnitude <= NearPos then
+        NearPos = (pos - position).Magnitude
+        TpPos = pos
+      end
+    end)
+    return TpPos
+  end
+end)
 local TeleportPos
 local function PlayerTP(Tween_Pos)
   TeleportPos = Tween_Pos.p
   local plrPP = Player.Character and Player.Character.PrimaryPart
   if not plrPP then return end
   local Distance = (plrPP.Position - Tween_Pos.p).Magnitude
+  local PortalPos = GetTPPos(Tween_Pos.p)
   if block then
+    if Distance <= 450 then
+      local tween = game:GetService("TweenService"):Create(block,
+      TweenInfo.new(Distance / tonumber(getgenv().TweenSpeed * 1.8), Enum.EasingStyle.Linear),
+      {CFrame = Tween_Pos}):Play()
+    else
       local tween = game:GetService("TweenService"):Create(block,
       TweenInfo.new(Distance / getgenv().TweenSpeed, Enum.EasingStyle.Linear),
       {CFrame = Tween_Pos}):Play()
     end
   end
+end
 local function BoatTP(Boat, pos)
   if Boat then
     local Distance = (Boat.PrimaryPart.Position - pos.p).Magnitude
@@ -557,46 +602,28 @@ end
 local Net = game:GetService("ReplicatedStorage").Modules.Net
 local RegisterAttack = Net:WaitForChild("RE/RegisterAttack")
 local RegisterHit = Net:WaitForChild("RE/RegisterHit")
-local Characters = workspace.Characters
-local Enemies = workspace.Enemies
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local module = {
-  NextAttack = 0,
-  Distance = 55,
-  attackMobs = true,
-  attackPlayers = true
-}
-function module:GetBladeHits()
-  local BladeHits = {}  
-  local Character = Player.Character  
-  for _, Enemy in Characters:GetChildren() do
-    if Enemy ~= Character and Player:DistanceFromCharacter(Enemy.PrimaryPart.Position) < self.Distance then
-      table.insert(BladeHits, Enemy.HumanoidRootPart)
+function FastAttack2()
+  for _, Enemy in workspace.Characters:GetChildren() do
+    if Enemy.Name ~= game.Players.LocalPlayer.Name and Enemy:FindFirstChild("HumanoidRootPart") then
+      RegisterAttack:FireServer(0)  
+      RegisterHit:FireServer(Enemy.HumanoidRootPart)
     end
   end
-  for _, Enemy in Enemies:GetChildren() do
-    if Player:DistanceFromCharacter(Enemy.PrimaryPart.Position) < self.Distance then
-      table.insert(BladeHits, Enemy.HumanoidRootPart)
+  for _, Enemy in workspace.Enemies:GetChildren() do
+    if Enemy:FindFirstChild("HumanoidRootPart") then
+      RegisterAttack:FireServer(0)  
+      RegisterHit:FireServer(Enemy.HumanoidRootPart)
     end
   end  
-  return BladeHits
-end
-function module:attack()
-  local BladeHits = self:GetBladeHits()  
-  RegisterAttack:FireServer(0)  
-  for _, Hit in BladeHits do
-    RegisterHit:FireServer(Hit)
-  end
 end
 local function PlayerClick()
-module:attack()
+FastAttack2()
 end
 local function FastAttack()
   task.spawn(function()
     while getgenv().FastAttack do task.wait()
     if not getgenv().AutoFarmMastery then
-      module:attack()
+      FastAttack2()
     end
     end
   end)
@@ -1251,6 +1278,7 @@ task.spawn(function()while task.wait(1) do pcall(Get_LevelQuest)end;end)
 Get_LevelQuest()
 local function BringNPC(Enemie, MultBring)
   if not BringMobs or not BringMobsDistance then
+  wait(0.5)
     local EnemiePP = Enemie.PrimaryPart
     if EnemiePP then
       EnemiePP.CFrame = EnePP2.CFrame
@@ -4501,55 +4529,6 @@ end
 end
 end)
 end)
-MainFarm:AddToggle({
-	Name = "Auto M1 Dragon-Kitsune",
-	Default = false,
-	Callback = function(Value)
-		getgenv().AutoDragon = Value
-	end
-})
-spawn(function()
-pcall(function()
-while wait() do
-if getgenv().AutoDragon then
-pcall(function()
-if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Dragon-Dragon") then
-local args = {
-    [1] = Vector3.new(-0.7925562262535095, -0, 0.6097988486289978),
-    [2] = 1
-}
-
-game:GetService("Players").LocalPlayer.Character:FindFirstChild("Dragon-Dragon").LeftClickRemote:FireServer(unpack(args))
-end
-if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Kitsune-Kitsune") then
-local args = {
-    [1] = Vector3.new(-0.7925562262535095, -0, 0.6097988486289978),
-    [2] = 1
-}
-
-game:GetService("Players").LocalPlayer.Character:FindFirstChild("Kitsune-Kitsune").LeftClickRemote:FireServer(unpack(args))
-end
-if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Dragon-Dragon") then
-local args = {
-    [1] = Vector3.new(-0.7925562262535095, -0, 0.6097988486289978),
-    [2] = 1
-}
-
-game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Dragon-Dragon").LeftClickRemote:FireServer(unpack(args))
-end
-if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Kitsune-Kitsune") then
-local args = {
-    [1] = Vector3.new(-0.7925562262535095, -0, 0.6097988486289978),
-    [2] = 1
-}
-
-game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Kitsune-Kitsune").LeftClickRemote:FireServer(unpack(args))
-end
- end)
-end
-end
-end)
-end)
 MainFarm:AddToggle({"Auto Farm Nearest", false, function(Value)
   getgenv().AutoFarmNearest = Value;AutoFarmNearest()
 end})
@@ -4562,7 +4541,7 @@ elseif Sea2 then
     getgenv().AutoFactory = Value;AutoFactory()
   end})
 end
-MainFarm:AddSection({"Christmas"})
+--[[MainFarm:AddSection({"Christmas"})
 local TimeLabel = MainFarm:AddParagraph({"Go to Island for See/Collect Gift Work!"})
 task.spawn(function()
   local Counter = workspace:WaitForChild("Countdown", 9e9)
@@ -4632,7 +4611,6 @@ MainFarm:AddToggle({"Auto Collect Gift", false, function(Value)
     end
   end)
 end})
-
 MainFarm:AddToggle({
 	Name = "Auto Eat Holiday Gift",
 	Default = false,
@@ -4682,8 +4660,7 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end
 end
 end)
-end)
-
+end)]]
 if Sea3 then
   MainFarm:AddSection({"Bone"})
 local BoneCheck = MainFarm:AddParagraph({""})
@@ -4793,14 +4770,14 @@ end)
 end
 MainFarm:AddSection({"Chest"})
 MainFarm:AddToggle({
-  Name = "Auto Chest < Tween >",
+  Name = "Auto Chest Near < Tween >",
   Callback = function(Value)
     getgenv().AutoChestTween = Value
     AutoChestTween()
   end
 })
 MainFarm:AddToggle({
-  Name = "Auto Chest < Bypass >",
+  Name = "Auto Chest Near < Bypass >",
   Callback = function(Value)
     getgenv().AutoChestBypass = Value
     AutoChestBypass()
@@ -5417,17 +5394,6 @@ spawn(function()
       getgenv().SelectRaidChip = Value
     end
   })
- FruitAndRaid:AddSlider({
-    Name = "Set Price Devil Fruit",
-    Min = 0,
-    Max = 10000000,
-    Increase = 10,
-    Default = 1000000,
-    Flag = "FruitUns",
-    Callback = function(Value)
-      _G.UnstoreFruitPrice = Value
-    end
-  })
   FruitAndRaid:AddToggle({
     Name = "Auto Farm Raid",
     Callback = function(Value)
@@ -5470,6 +5436,18 @@ spawn(function()
                 local Island3 = GetIsland("Island 3")
                 local Island4 = GetIsland("Island 4")
                 local Island5 = GetIsland("Island 5")              
+                for _, Enemy in workspace.Enemies:GetChildren() do
+                local PlayerPP = Player.Character and Player.Character.PrimaryPart
+      local EnemiePP = Enemy.PrimaryPart 
+    if Enemy:FindFirstChild("HumanoidRootPart") and PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude < 1500 and Enemy.Humanoid.Health > 0 then
+    PlayerTP(Enemy.HumanoidRootPart.CFrame + getgenv().FarmPos)
+      pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemy)end)     
+        end
+        end
+                for _, Enemy in workspace.Enemies:GetChildren() do
+    local PlayerPP = Player.Character and Player.Character.PrimaryPart
+      local EnemiePP = Enemy.PrimaryPart 
+    if PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude > 1500 then
                 if Island5 then
                   getgenv().FarmingRaid = true
                   PlayerTP(Island5.CFrame + Vector3.new(0, 70, 0))
@@ -5492,6 +5470,8 @@ spawn(function()
                 getgenv().FarmingRaid = false
               end
             end
+           end
+           end
           end
         end)    
         while getgenv().AutoFarmRaid do task.wait()
@@ -5517,8 +5497,6 @@ spawn(function()
           end
         end
       end)
-      getgenv().AutoKillAura = Value
-      AutoKillAura()
     end
   })
 spawn(function()
@@ -5526,57 +5504,38 @@ pcall(function()
 while wait() do
 if getgenv().AutoFarmRaid then
 pcall(function()
- if not Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible and VerifyTool("Special Microchip") then
+ if not Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible then
                   if Sea2 and not workspace.Map.CircleIsland.RaidSummon2.Button:FindFirstChild("Main") then
                   PlayerTP(CFrame.new(-5897, 18, -5096))
-               elseif Sea3 and not workspace.Map["Boat Castle"].RaidSummon2.Button:FindFirstChild("Main") then
-                  PlayerTP(CFrame.new(-16224, 9, 439))
                   end
+               if Sea3 and not workspace.Map["Boat Castle"].RaidSummon2.Button:FindFirstChild("Main") then
+                  PlayerTP(CFrame.new(-5073, 315, -3153))
                   end
+                  end                
  end)
 end
 end
 end)
 end)
-FruitAndRaid:AddToggle({
-	Name = "Auto Unstore Fruit",
-	Default = false,
-	Flag = "i90",
-	Callback = function(Value)
-		_G.UnstoreBadFruit = Value
-	end
-})
-    function GetFruitsInfo()
-        for i, v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
-            if string.find(v.Name, "Fruit") then
-                return true
-            end
+spawn(function()
+pcall(function()
+while wait(7) do
+if getgenv().AutoFarmRaid then
+pcall(function()
+ for _, Enemy in workspace.Enemies:GetChildren() do
+      local EnemiePP = Enemy.PrimaryPart 
+     if Enemy.Humanoid.Health > 0 and Enemy.Humanoid.Health ~= Enemy.Humanoid.MaxHealth then
+        Enemy.Humanoid.Health = 0
+        EnemiePP.Size = Vector3.new(75, 75, 75)
+        EnemiePP.CanCollide = false
+        sethiddenproperty(Player, "SimulationRadius", math.huge)
         end
-        for i, v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
-            if string.find(v.Name, "Fruit") then
-                return true
-            end
         end
-        return false
-    end
-    spawn(function()
-        while wait(1) do
-            pcall(function()
-                if _G.UnstoreBadFruit then
-                if not VerifyTool("Special Microchip") then
-                    fruit = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getInventoryFruits")
-                    for i,v in pairs(fruit) do
-                        if v["Price"] < _G.UnstoreFruitPrice then
-                            if not GetFruitsInfo() then
-                                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit",v["Name"])
-                            end
-                            end
-                        end
-                    end
-                end
-            end)
-        end
-    end)
+ end)
+end
+end
+end)
+end)
   FruitAndRaid:AddToggle({"Auto Buy Chip", false, function(Value)
     getgenv().AutoBuyChip = Value
     task.spawn(function()
@@ -7152,96 +7111,12 @@ end
 end)
 end)
 Misc:AddSection({"Codes"})
-Misc:AddButton({
-  Name = "Redeem all Codes",
-  Callback = function()
-    local Codes = {
-      "REWARDFUN",
-      "Chandler",
-      "NEWTROLL",
-      "KITT_RESET",
-      "Sub2CaptainMaui",
-      "DEVSCOOKING",
-      "kittgaming",
-      "Sub2Fer999",
-      "Enyu_is_Pro",
-      "Magicbus",
-      "JCWK",
-      "Starcodeheo",
-      "Bluxxy",
-      "fudd10_v2",
-      "SUB2GAMERROBOT_EXP1",
-      "Sub2NoobMaster123",
-      "Sub2UncleKizaru",
-      "Sub2Daigrock",
-      "Axiore",
-      "TantaiGaming",
-      "StrawHatMaine",
-      "Sub2OfficialNoobie",
-      "Fudd10",
-      "Bignews",
-      "TheGreatAce",
-      "DRAGONABUSE",
-      "SECRET_ADMIN",
-      "ADMIN_TROLL",
-      "STAFFBATTLE",
-      "ADMIN_STRENGTH",
-      "JULYUPDATE_RESET",
-      "NOOB_REFUND",
-      "15B_BESTBROTHERS",
-      "CINCODEMAYO_BOOST",
-      "ADMINGIVEAWAY",
-      "GAMER_ROBOT_1M",
-      "SUBGAMERROBOT_RESET",
-      "SUB2GAMERROBOT_RESET1",
-      "GAMERROBOT_YT",
-      "TY_FOR_WATCHING",
-      "EXP_5B",
-      "RESET_5B",
-      "UPD16",
-      "3BVISITS",
-      "2BILLION",
-      "UPD15",
-      "THIRDSEA",
-      "1MLIKES_RESET",
-      "UPD14",
-      "1BILLION",
-      "ShutDownFix2",
-      "XmasExp",
-      "XmasReset",
-      "Update11",
-      "PointsReset",
-      "Update10",
-      "Control",
-      "SUB2OFFICIALNOOBIE",
-      "AXIORE",
-      "BIGNEWS",
-      "BLUXXY",
-      "CHANDLER",
-      "ENYU_IS_PRO",
-      "FUDD10",
-      "FUDD10_V2",
-      "KITTGAMING",
-      "MAGICBUS",
-      "STARCODEHEO",
-      "STRAWHATMAINE",
-      "SUB2CAPTAINMAUI",
-      "SUB2DAIGROCK",
-      "SUB2FER999",
-      "SUB2NOOBMASTER123",
-      "SUB2UNCLEKIZARU",
-      "TANTAIGAMING",
-      "THEGREATACE",
-      "CONTROL",
-      "UPDATE11",
-      "XMASEXP",
-      "Colosseum"
-    }  
-    for _,code in pairs(Codes) do
-      task.spawn(function()ReplicatedStorage.Remotes.Redeem:InvokeServer(code)end)
-    end
+Misc:AddButton({"Redeem all Codes", function()
+  local CodesAPI = game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Utils/Codes.txt")
+  for _,code in next, CodesAPI:gsub("\n", ""):split(" ") do
+    ReplicatedStorage.Remotes.Redeem:InvokeServer(code)
   end
-})
+end})
 Misc:AddSection({"Team"})
 Misc:AddButton({"Join Pirates Team", function()
   FireRemote("SetTeam", "Pirates")
@@ -7330,12 +7205,12 @@ Misc:AddToggle({"Anti AFK", true, function(Value)
     end
   end)
 end, "Misc/AntiAFK"})
-Shop:AddSection({"Christmas"})
+--[[Shop:AddSection({"Christmas"})
 Shop:AddButton({"Buy 2x EXP (15 mins.) < 50 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 1, 1)end})
 Shop:AddButton({"Stats Refund < 75 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 1, 2)end})
 Shop:AddButton({"Race Reroll < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 1, 3)end})
 Shop:AddButton({"Buy 200 Frags < 50 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})
-Shop:AddButton({"Buy 500 Frags < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})
+Shop:AddButton({"Buy 500 Frags < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})]]
 Shop:AddSection({"Bones"})
 Shop:AddButton({"Buy Surprise < 50 Bones >", function()FireRemote("Bones", "Buy", 1, 1)end})
 Shop:AddButton({"Stats Refund < 150 Bones >", function()FireRemote("Bones", "Buy", 1, 2)end})
@@ -7403,7 +7278,7 @@ end})
 Visual:AddToggle({Name = "ESP Fruits",Callback = function(Value)
   getgenv().EspFruits = Value;EspFruits()
 end, Flag = "ESP/Fruits"})
-Visual:AddToggle({Name = "ESP Chests",Callback = function(Value)
+Visual:AddToggle({Name = "ESP Chests < Near >",Callback = function(Value)
   getgenv().EspChests = Value;EspChests()
 end})
 Visual:AddToggle({Name = "ESP Islands",Callback = function(Value)
@@ -7424,6 +7299,13 @@ end})
 				end
 			end)
 		end
+  end})
+  Visual:AddButton({"Bring Fruits", function()
+    for _,Fruit in pairs(game.Workspace.Map:GetChildren()) do
+      if Fruit:IsA("Tool") or Fruit.Name:find("Fruit") then
+        Fruit.Parent = Player.Backpack
+      end
+    end
   end})
 Visual:AddButton({"INF Level", function(value)
 local plr = game:GetService("Players").LocalPlayer
@@ -7465,6 +7347,18 @@ while plr.Data.Exp.Value - EXPFunction(Data.Level.Value) > 0 do
         wait()
     end
 end
+  end})
+ Visual:AddSection({"Fake Earn"})
+  Visual:AddButton({"Earn Fake Fragments", function()
+    local Notify = require(ReplicatedStorage.Notification)
+    local Frags = Player.Data.Fragments
+    local TextColor = ("Earned <Color=Purple>ƒ%i<Color=/>")
+    for i = 1, 50 do
+      local Earned = math.random(1000, 10000)
+      Frags.Value = Frags.Value + Earned
+      Notify.new(TextColor:format(Earned)):Display()
+      _wait(0.1)
+    end
   end})
 Visual:AddSection({"Fake"})
 Visual:AddParagraph({"Fake Stats"})
