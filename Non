@@ -604,13 +604,13 @@ local RegisterAttack = Net:WaitForChild("RE/RegisterAttack")
 local RegisterHit = Net:WaitForChild("RE/RegisterHit")
 function FastAttack2()
   for _, Enemy in workspace.Characters:GetChildren() do
-    if Enemy.Name ~= game.Players.LocalPlayer.Name and Enemy:FindFirstChild("HumanoidRootPart") then
+    if Enemy.Name ~= game.Players.LocalPlayer.Name and Enemy:FindFirstChild("HumanoidRootPart") and (Enemy.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 100 then
       RegisterAttack:FireServer(0)  
       RegisterHit:FireServer(Enemy.HumanoidRootPart)
     end
   end
   for _, Enemy in workspace.Enemies:GetChildren() do
-    if Enemy:FindFirstChild("HumanoidRootPart") then
+    if Enemy:FindFirstChild("HumanoidRootPart") and (Enemy.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 26 then
       RegisterAttack:FireServer(0)  
       RegisterHit:FireServer(Enemy.HumanoidRootPart)
     end
