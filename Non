@@ -603,18 +603,22 @@ local Net = game:GetService("ReplicatedStorage").Modules.Net
 local RegisterAttack = Net:WaitForChild("RE/RegisterAttack")
 local RegisterHit = Net:WaitForChild("RE/RegisterHit")
 function FastAttack2()
+if getgenv().MethodAttack == "Attack Players" then
   for _, Enemy in workspace.Characters:GetChildren() do
-    if Enemy.Name ~= game.Players.LocalPlayer.Name and Enemy:FindFirstChild("HumanoidRootPart") and (Enemy.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 56 then
+    if Enemy.Name ~= game.Players.LocalPlayer.Name and Enemy:FindFirstChild("HumanoidRootPart") then
       RegisterAttack:FireServer(0)  
       RegisterHit:FireServer(Enemy.HumanoidRootPart)
     end
+   end
   end
+  if getgenv().MethodAttack == "Attack Mobs" then
   for _, Enemy in workspace.Enemies:GetChildren() do
-    if Enemy:FindFirstChild("HumanoidRootPart") and (Enemy.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 56 then
+    if Enemy:FindFirstChild("HumanoidRootPart") then
       RegisterAttack:FireServer(0)  
       RegisterHit:FireServer(Enemy.HumanoidRootPart)
     end
   end  
+ end
 end
 local function PlayerClick()
 FastAttack2()
@@ -3146,7 +3150,7 @@ end
   if Sea3 then
   AutoSea:AddSection({"Kitsune"})
   local KILabel = AutoSea:AddParagraph({"Kitsune Island : Not Spawned"})
-  local FullMoon = AutoSea:AddParagraph({""})
+  --[[local FullMoon = AutoSea:AddParagraph({""})
   spawn(function()
     while task.wait() do
         pcall(function()
@@ -3167,7 +3171,7 @@ end
                     end
                 end)
             end
-end)
+end)]]
 AutoSea:AddSlider({
 	Name = "Set To Trade Azure Ember",
 	Min = 0,
@@ -3643,7 +3647,7 @@ end
 if Sea3 then
   local MirageTab = Window:MakeTab({"Race V4", "User"})
 MirageTab:AddSection({"Mirage"})
-  local FullMoon = MirageTab:AddParagraph({""})
+ --[[local FullMoon = MirageTab:AddParagraph({""})
   spawn(function()
     while task.wait() do
         pcall(function()
@@ -3664,7 +3668,7 @@ MirageTab:AddSection({"Mirage"})
                     end
                 end)
             end
-end)
+end)]]
 local Mirragecheck = MirageTab:AddParagraph({""})
 spawn(function()
     pcall(function()
@@ -5439,7 +5443,7 @@ spawn(function()
                 for _, Enemy in workspace.Enemies:GetChildren() do
                 local PlayerPP = Player.Character and Player.Character.PrimaryPart
       local EnemiePP = Enemy.PrimaryPart 
-    if Enemy:FindFirstChild("HumanoidRootPart") and PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude < 1500 and Enemy.Humanoid.Health > 0 then
+    if Enemy:FindFirstChild("HumanoidRootPart") and PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude < 3000 and Enemy.Humanoid.Health > 0 then
     PlayerTP(Enemy.HumanoidRootPart.CFrame + getgenv().FarmPos)
       pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemy)end)     
         end
@@ -5447,7 +5451,7 @@ spawn(function()
                 for _, Enemy in workspace.Enemies:GetChildren() do
     local PlayerPP = Player.Character and Player.Character.PrimaryPart
       local EnemiePP = Enemy.PrimaryPart 
-    if PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude > 1500 then
+    if not EnemiePP or PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude > 3000 then
                 if Island5 then
                   getgenv().FarmingRaid = true
                   PlayerTP(Island5.CFrame + Vector3.new(0, 70, 0))
@@ -5504,7 +5508,7 @@ pcall(function()
 while wait() do
 if getgenv().AutoFarmRaid then
 pcall(function()
- if not Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible then
+      if not Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible and VerifyTool("Special Microchip") then
                   if Sea2 and not workspace.Map.CircleIsland.RaidSummon2.Button:FindFirstChild("Main") then
                   PlayerTP(CFrame.new(-5897, 18, -5096))
                   end
@@ -5519,7 +5523,7 @@ end)
 end)
 spawn(function()
 pcall(function()
-while wait(7) do
+while wait(5) do
 if getgenv().AutoFarmRaid then
 pcall(function()
  for _, Enemy in workspace.Enemies:GetChildren() do
@@ -7019,6 +7023,16 @@ TPToggle:Callback(function(Value)
   end
 end)
 Misc:AddSection({"Configs"})
+Misc:AddDropdown({
+	Name = "Select Attack Method",
+	Description = "",
+	Options = {"Attack Mobs", "Attack Players"},
+	Default = "Attack Mobs",
+	Flag = "mwhtodfatNah",
+	Callback = function(Value)
+	getgenv().MethodAttack = Value
+	end
+})
 Misc:AddSlider({"Farm Distance", 5, 30, 1, 20, function(Value)
   getgenv().FarmPos = Vector3.new(0, Value or 15, Value or 10)getgenv().FarmDistance = Value
 end, "Misc/FarmDistance"})
@@ -7255,6 +7269,7 @@ Shop:AddSection({"Gun"})
 Shop:AddButton({"Buy Musket", function()FireRemote("BuyItem", "Musket")end})
 Shop:AddButton({"Buy Slingshot", function()FireRemote("BuyItem", "Slingshot")end})
 Shop:AddButton({"Buy Flintlock", function()FireRemote("BuyItem", "Flintlock")end})
+Shop:AddButton({"Buy Dual Flintlock", function()FireRemote("BuyItem", "Dual Flintlock")end})
 Shop:AddButton({"Buy Refined Slingshot", function()FireRemote("BuyItem", "Refined Slingshot")end})
 Shop:AddButton({"Buy Refined Flintlock", function()FireRemote("BuyItem", "Refined Flintlock")end})
 Shop:AddButton({"Buy Cannon", function()FireRemote("BuyItem", "Cannon")end})
