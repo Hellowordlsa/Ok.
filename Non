@@ -5449,9 +5449,7 @@ spawn(function()
         end
         end
                 for _, Enemy in workspace.Enemies:GetChildren() do
-    local PlayerPP = Player.Character and Player.Character.PrimaryPart
-      local EnemiePP = Enemy.PrimaryPart 
-    if not EnemiePP or PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude > 3000 then
+    if not Enemy.HumanoidRootPart:FindFirstChild("EnemyNotifier") then
                 if Island5 then
                   getgenv().FarmingRaid = true
                   PlayerTP(Island5.CFrame + Vector3.new(0, 70, 0))
@@ -5489,9 +5487,11 @@ spawn(function()
               and not GetIsland("Island 5") then
                 pcall(function()
                   if Sea2 then
+                  PlayerTP(CFrame.new(-5897, 18, -5096))
                     fireclickdetector(workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
                     repeat task.wait()until GetIsland("Island 1")task.wait(1)
                   elseif Sea3 then
+                  PlayerTP(CFrame.new(-5073, 315, -3153))
                     fireclickdetector(workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
                     repeat task.wait()until GetIsland("Island 1")task.wait(1)
                   end
@@ -5503,24 +5503,6 @@ spawn(function()
       end)
     end
   })
-spawn(function()
-pcall(function()
-while wait() do
-if getgenv().AutoFarmRaid then
-pcall(function()
-      if not Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible and VerifyTool("Special Microchip") then
-                  if Sea2 and not workspace.Map.CircleIsland.RaidSummon2.Button:FindFirstChild("Main") then
-                  PlayerTP(CFrame.new(-5897, 18, -5096))
-                  end
-               if Sea3 and not workspace.Map["Boat Castle"].RaidSummon2.Button:FindFirstChild("Main") then
-                  PlayerTP(CFrame.new(-5073, 315, -3153))
-                  end
-                  end                
- end)
-end
-end
-end)
-end)
 spawn(function()
 pcall(function()
 while wait(5) do
