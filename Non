@@ -5443,13 +5443,10 @@ spawn(function()
                 for _, Enemy in workspace.Enemies:GetChildren() do
                 local PlayerPP = Player.Character and Player.Character.PrimaryPart
       local EnemiePP = Enemy.PrimaryPart 
-    if Enemy:FindFirstChild("HumanoidRootPart") and PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude < 3000 and Enemy.Humanoid.Health > 0 then
+    if Enemy:FindFirstChild("HumanoidRootPart") and (EnemiePP.Position - PlayerPP.Position).Magnitude < 3000 and Enemy.Humanoid.Health > 0 then
     PlayerTP(Enemy.HumanoidRootPart.CFrame + getgenv().FarmPos)
       pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemy)end)     
-        end
-        end
-                for _, Enemy in workspace.Enemies:GetChildren() do
-    if not Enemy.HumanoidRootPart:FindFirstChild("EnemyNotifier") then
+        else
                 if Island5 then
                   getgenv().FarmingRaid = true
                   PlayerTP(Island5.CFrame + Vector3.new(0, 70, 0))
@@ -5468,11 +5465,11 @@ spawn(function()
                 else
                   getgenv().FarmingRaid = false
                 end
+                end
+                end
               else
                 getgenv().FarmingRaid = false
               end
-            end
-           end
            end
           end
         end)    
@@ -5505,7 +5502,7 @@ spawn(function()
   })
 spawn(function()
 pcall(function()
-while wait(5) do
+while wait(2) do
 if getgenv().AutoFarmRaid then
 pcall(function()
  for _, Enemy in workspace.Enemies:GetChildren() do
