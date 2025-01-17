@@ -647,7 +647,7 @@ local function GetNearbyTargets()
 end
 local function PerformAttackSequence(targets)
     if #targets == 0 then return end
-    RegisterAttack:FireServer()
+    RegisterAttack:FireServer(0)
     for i = 1, math.min(#targets, COMBAT_CONFIG.maxTargets) do
         local target = targets[i]
         for _ = 1, COMBAT_CONFIG.attacksPerTarget do
