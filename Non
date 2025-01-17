@@ -410,33 +410,16 @@ local function BoatTP(Boat, pos)
     {CFrame = pos}):Play()
   end
 end
-local function KillAura()
-  local function Kill(_,Enemie)
-    local EnemieH = Enemie:FindFirstChild("Humanoid")
-    if EnemieH and EnemieH.Health > 0 then
-      local PlayerPP = Player.Character and Player.Character.PrimaryPart
-      local EnemiePP = Enemie.PrimaryPart
-      if PlayerPP and EnemiePP and (EnemiePP.Position - PlayerPP.Position).Magnitude < 1500 then
-        EnemieH.Health = 0
-        EnemiePP.Size = Vector3.new(75, 75, 75)
-        EnemiePP.CanCollide = false
-        sethiddenproperty(Player, "SimulationRadius", math.huge)
+local function KillBossInTrial()
+for _, Enemy in workspace.Enemies:GetChildren() do
+                local PlayerPP = Player.Character and Player.Character.PrimaryPart
+      local EnemiePP = Enemy.PrimaryPart 
+    if Enemy:FindFirstChild("HumanoidRootPart") and (EnemiePP.Position - PlayerPP.Position).Magnitude < 3000 and Enemy.Humanoid.Health > 0 then
+    PlayerTP(Enemy.HumanoidRootPart.CFrame + getgenv().FarmPos)
+      pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemy)end)     
       end
-    else
-      local EnemieHead = Enemie:FindFirstChild("Head")
-      if EnemieHead then
-        EnemieHead:Destroy()
       end
-    end
-  end
-  table.foreach(Enemies:GetChildren(), Kill)
-  table.foreach(ReplicatedStorage:GetChildren(), Kill)
-end
-local function AutoKillAura()
-  while getgenv().AutoKillAura do task.wait()
-    KillAura()
-  end
-end
+      end
 local function VerifyTableNPCs(npcs)
   if typeof(npcs) == "table" then
     for _,npc in pairs(Enemies:GetChildren()) do
@@ -608,7 +591,6 @@ local Net = ReplicatedStorage.Modules.Net
 local RegisterAttack = Net:WaitForChild("RE/RegisterAttack")
 local RegisterHit = Net:WaitForChild("RE/RegisterHit")
 local LocalPlayer = Players.LocalPlayer
-
 local COMBAT_CONFIG = {
     enabled = true,
     attacksPerTarget = 3,
@@ -622,11 +604,9 @@ local COMBAT_CONFIG = {
         timing = {min = -0.05, max = 0.05} -- << Some shit to make sure anti cheat won't reach and ping won't grow
     }
 }
-
 local function GetPrimaryPart(model)
     return model:FindFirstChild("HumanoidRootPart") or model:FindFirstChild("PrimaryPart")
 end
-
 local function IsValidTarget(target)
     if not target then return false end
     local humanoid = target:FindFirstChildOfClass("Humanoid")
@@ -635,7 +615,6 @@ local function IsValidTarget(target)
     if targetPlayer and targetPlayer.Team == LocalPlayer.Team then return false end
     return true
 end
-
 local function GetNearbyTargets()
     local character = LocalPlayer.Character
     if not character or not character.PrimaryPart then return {} end
@@ -666,7 +645,6 @@ local function GetNearbyTargets()
     table.sort(targets, function(a, b) return a.distance < b.distance end)
     return targets
 end
-
 local function PerformAttackSequence(targets)
     if #targets == 0 then return end
     RegisterAttack:FireServer()
@@ -678,7 +656,6 @@ local function PerformAttackSequence(targets)
         end
     end
 end
-
 local lastAttackTime = 0
 local function CombatLoop()
     if not COMBAT_CONFIG.enabled then return end
@@ -693,10 +670,8 @@ local function CombatLoop()
         lastAttackTime = now
     end
 end
-
 local combatConnection
 local characterConnection
-
 local function Cleanup()
     if combatConnection then
         combatConnection:Disconnect()
@@ -707,7 +682,6 @@ local function Cleanup()
         characterConnection = nil
     end
 end
-
 local function SetupCombat()
     Cleanup()  
     combatConnection = RunService.Heartbeat:Connect(CombatLoop)
@@ -4160,9 +4134,9 @@ end)
           if PlayerRace == "Cyborg" then
             PlayerTP(CFrame.new(28654, 14898, -30))
           elseif PlayerRace == "Ghoul" then
-            KillAura()
+            KillBossInTrial()
           elseif PlayerRace == "Human" then
-            KillAura()
+            KillBossInTrial()
           elseif PlayerRace == "Mink" then
             for _,part in pairs(workspace:GetDescendants()) do
               if part.Name == "StartPoint" then
@@ -4252,6 +4226,27 @@ end)
       end
     end)
   end})
+spawn(function()
+pcall(function()
+while wait(2) do
+if getgenv().AutoFinishTrial then
+pcall(function()
+if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == true then
+ for _, Enemy in workspace.Enemies:GetChildren() do
+      local EnemiePP = Enemy.PrimaryPart 
+     if Enemy.Humanoid.Health > 0 and Enemy.Humanoid.Health ~= Enemy.Humanoid.MaxHealth then
+        Enemy.Humanoid.Health = 0
+        EnemiePP.Size = Vector3.new(75, 75, 75)
+        EnemiePP.CanCollide = false
+        sethiddenproperty(Player, "SimulationRadius", math.huge)
+        end
+        end
+        end
+ end)
+end
+end
+end)
+end)
 MirageTab:AddToggle({
 	Name = "Auto Kill Player",
 	Default = false,
