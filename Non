@@ -708,19 +708,12 @@ end
 
 local function SetupCombat()
     Cleanup()  
+    combatConnection = RunService.Heartbeat:Connect(CombatLoop)
 end
-local function PlayerClick()
-SetupCombat()
-end
-local function FastAttack()
-  task.spawn(function()
-    while getgenv().FastAttack do task.wait()
-    if not getgenv().AutoFarmMastery then
-      SetupCombat()
-    end
-    end
-  end)
-  end
+characterConnection = LocalPlayer.CharacterAdded:Connect(function()
+    task.wait(0.5)
+    SetupCombat()
+end)
 local function ServerHop()
   local Http = game:GetService("HttpService")
   local TPS = game:GetService("TeleportService")
@@ -7115,7 +7108,7 @@ Misc:AddToggle({
 	Default = true,
 	Callback = function(Value)
 		getgenv().FastAttack = Value
-		FastAttack()
+		SetupCombat()
 	end
 })
 Misc:AddToggle({"Bring Mobs", true, function(Value)
@@ -7124,34 +7117,6 @@ end, "Misc/BringMobs"})
 Misc:AddToggle({"Auto Haki", true, function(Value)
   getgenv().AutoHaki = Value
 end, "Misc/AutoHaki"})
-Misc:AddToggle({
-	Name = "Auto Ken",
-	Default = false,
-	Callback = function(Value)
-		getgenv().EnableKen = Value
-	end
-})
-spawn(function()
-pcall(function()
-while wait() do
-if getgenv().EnableKen then
-pcall(function()
-if
-                                game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") and
-                                    game.Players.LocalPlayer.PlayerGui.ScreenGui:FindFirstChild("ImageLabel")
-                             then
-                            else
-                                wait(1)
-                                game:service("VirtualUser"):CaptureController()
-                                game:service("VirtualUser"):SetKeyDown("0x65")
-                                wait(2)
-                                game:service("VirtualUser"):SetKeyUp("0x65")
-                            end
-end)
-end
-end
-end)
-end)
 Misc:AddToggle({
 	Name = "Auto Turn On V3",
 	Default = false,
@@ -7256,7 +7221,7 @@ Misc:AddButton({
 Misc:AddButton({
 	Name = "Rejoin",
 	Callback = function()
-game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)  
+ReplicatedStorage["__ServerBrowser"]:InvokeServer("teleport", game.JobId)
 	end
 })
 Misc:AddButton({
