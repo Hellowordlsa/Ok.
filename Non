@@ -5918,6 +5918,7 @@ function getCheapestFruit()
         while getgenv().AutoStartLawRaid do task.wait()
           if not VerifyNPC("Order") and VerifyTool("Microchip") then
             pcall(function()
+            PlayerTP(CFrame.new(-5897, 18, -5096))
 					    fireclickdetector(workspace.Map.CircleIsland.RaidSummon.Button.Main.ClickDetector)
 					  end)
 					end
