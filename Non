@@ -647,7 +647,7 @@ local function GetNearbyTargets()
 end
 local function PerformAttackSequence(targets)
     if #targets == 0 then return end
-    RegisterAttack:FireServer(0)
+    RegisterAttack:FireServer()
     for i = 1, math.min(#targets, COMBAT_CONFIG.maxTargets) do
         local target = targets[i]
         for _ = 1, COMBAT_CONFIG.attacksPerTarget do
@@ -7091,7 +7091,7 @@ end, "Misc/FarmDistance"})
 Misc:AddSlider({"Tween Speed", 50, 340, 5, 310, function(Value)
   getgenv().TweenSpeed = Value
 end, "Misc/TweenSpeed"})
-Misc:AddSlider({"Bring Mobs Distance", 50, 500, 10, 250, function(Value)
+Misc:AddSlider({"Bring Mobs Distance", 50, 300, 10, 250, function(Value)
   getgenv().BringMobsDistance = Value or 250
 end, "Misc/BringMobsDistance"})
 Misc:AddToggle({
@@ -7252,11 +7252,11 @@ Shop:AddButton({"Buy 2x EXP (15 mins.) < 50 Candies >", function()FireRemote("Ca
 Shop:AddButton({"Stats Refund < 75 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 1, 2)end})
 Shop:AddButton({"Race Reroll < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 1, 3)end})
 Shop:AddButton({"Buy 200 Frags < 50 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})
-Shop:AddButton({"Buy 500 Frags < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})]]
+Shop:AddButton({"Buy 500 Frags < 100 Candies >", function()FireRemote("Candies", "Check")FireRemote("Candies", "Buy", 2, 2)end})
 Shop:AddSection({"Bones"})
 Shop:AddButton({"Buy Surprise < 50 Bones >", function()FireRemote("Bones", "Buy", 1, 1)end})
 Shop:AddButton({"Stats Refund < 150 Bones >", function()FireRemote("Bones", "Buy", 1, 2)end})
-Shop:AddButton({"Race Reroll < 300 Bones >", function()FireRemote("Bones", "Buy", 1, 3)end})
+Shop:AddButton({"Race Reroll < 300 Bones >", function()FireRemote("Bones", "Buy", 1, 3)end})]]
 Shop:AddSection({"Ectoplasm"})
 Shop:AddButton({"Midnight Blade", function()end})
 Shop:AddButton({"Bizarre Rifle", function()end})
