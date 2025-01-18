@@ -17,7 +17,7 @@ local function FireRemote(...)
 end
 local block = Instance.new("Part", workspace)
 block.Size = Vector3.new(1, 1, 1)
-block.Name = "player platform ............."
+block.Name = "OMG Hub  | Platform"
 block.Anchored = true
 block.CanCollide = false
 block.CanTouch = false
@@ -7028,16 +7028,6 @@ TPToggle:Callback(function(Value)
   end
 end)
 Misc:AddSection({"Configs"})
-Misc:AddDropdown({
-	Name = "Select Attack Method",
-	Description = "",
-	Options = {"Attack Mobs", "Attack Players"},
-	Default = "Attack Mobs",
-	Flag = "mwhtodfatNah",
-	Callback = function(Value)
-	getgenv().MethodAttack = Value
-	end
-})
 Misc:AddSlider({"Farm Distance", 5, 30, 1, 20, function(Value)
   getgenv().FarmPos = Vector3.new(0, Value or 15, Value or 10)getgenv().FarmDistance = Value
 end, "Misc/FarmDistance"})
