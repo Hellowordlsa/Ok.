@@ -647,7 +647,7 @@ local function GetNearbyTargets()
 end
 local function PerformAttackSequence(targets)
     if #targets == 0 then return end
-    RegisterAttack:FireServer(0)
+    RegisterAttack:FireServer()
     for i = 1, math.min(#targets, COMBAT_CONFIG.maxTargets) do
         local target = targets[i]
         for _ = 1, COMBAT_CONFIG.attacksPerTarget do
@@ -690,6 +690,8 @@ characterConnection = LocalPlayer.CharacterAdded:Connect(function()
     task.wait(0.5)
     SetupCombat()
 end)
+local function PlayerClick()
+end
 SetupCombat()
 local function ServerHop()
   local Http = game:GetService("HttpService")
