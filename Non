@@ -42,6 +42,7 @@ task.spawn(function()
       or getgenv().AutoFarmBossSelected
       or getgenv().AutoRengoku
       or getgenv().TeleportToFruit
+      or getgenv().TeleportToBerry
       or getgenv().AutoFactory
       or getgenv().AutoBartiloQuest
       or getgenv().AutoFarmRaid
@@ -93,6 +94,7 @@ task.spawn(function()
       or getgenv().AutoPlayerHunter
       or getgenv().ChooseGear
       or getgenv().BringFruit
+      or getgenv().BringBerry
       or getgenv().AutoMirageIsland
       or getgenv().Aren
       or getgenv().EvoV3
@@ -546,6 +548,20 @@ local function EspFruits()
     end
   end
 end
+local function EspBerry()
+  while getgenv().EspBerry do task.wait()
+    for _,Fruit in pairs(workspace:GetChildren()) do
+      if Fruit and string.find(Fruit.Name, "Berry") then
+        AddESP(Fruit, Color3.fromRGB(255, 0, 0))
+      end
+  end
+  for _,Fruit in pairs(workspace:GetChildren()) do
+    if Fruit and Fruit:FindFirstChildOfClass("ProximityPrompt") then
+      RemoveESP(Fruit)
+    end
+  end
+  end
+end
 local function EspIslands()
   while getgenv().EspIslands do task.wait()
     local Locations = workspace:WaitForChild("_WorldOrigin", 9e9):WaitForChild("Locations", 9e9)
@@ -856,6 +872,24 @@ local function FruitFind()
     end
   end
   return Fruit and Fruit:FindFirstChild("Handle")
+end
+local function BerryFind()
+  local fruits = workspace:GetChildren()
+  local FruitDistance = math.huge
+  local Fruit = nil  
+  for __,fruit in pairs(fruits) do
+    local args1 = Player and Player.Character and Player.Character.PrimaryPart
+    local args2 = fruit and fruit:FindFirstChildOfClass("ProximityPrompt")
+    local args3 = fruit and string.find(fruit.Name, "Berry") and fruit:FindFirstChildOfClass("ProximityPrompt")
+    if args1 and args2 and (args1.Position - args2.Position).Magnitude <= FruitDistance then
+      FruitDistance = (args1.Position - args2.Position).Magnitude
+      Fruit = fruit
+    elseif args1 and args3 and (args1.Position - args3.Position).Magnitude <= FruitDistance then
+      FruitDistance = (args1.Position - args3.Position).Magnitude
+      Fruit = fruit
+    end
+  end
+  return Fruit and Fruit:FindFirstChildOfClass("ProximityPrompt")
 end
 local function BuyFightStyle(Style)
   FireRemote(Style, true)
@@ -1410,12 +1444,12 @@ local function VerifyBosses()
     end
   end
 end
-local TimerG = Player:WaitForChild("PlayerGui", 9e9):WaitForChild("Main", 9e9):WaitForChild("Timer", 9e9)
 local function Configure(Farm)
   if Farm == "Level" then
     if VerifyEliteBoss() then return true
     elseif VerifyRaidPirate() then return true
     elseif getgenv().TeleportToFruit and FruitFind() then return true
+    elseif getgenv().TeleportToBerry and BerryFind() then return true
     elseif getgenv().AutoSecondSea and PlayerLevel.Value >= 700 then return true
     elseif getgenv().AutoThirdSea and PlayerLevel.Value >= 1500 then return true
     elseif VerifyNPC("Awakened Ice Admiral") and getgenv().AutoRengoku then return true
@@ -1433,6 +1467,7 @@ local function Configure(Farm)
     elseif not VerifyRaidPirate() and getgenv().AutoFarm_Level then return true
     elseif not VerifyRaidPirate() and getgenv().AutoEliteHunter then return true
     elseif not VerifyRaidPirate() and getgenv().TeleportToFruit then return true
+    elseif not VerifyRaidPirate() and getgenv().TeleportToBerry then return true
     end
   elseif Farm == "All Bosses" then
     if getgenv().KillAllBosses and VerifyBosses() then
@@ -1448,6 +1483,7 @@ local function Configure(Farm)
     end
   elseif Farm == "Elite Hunter" then
     if getgenv().TeleportToFruit and FruitFind() then return true
+    elseif getgenv().TeleportToBerry and BerryFind() then return true
     elseif VerifyRaidPirate() then return true
     elseif not VerifyEliteBoss() and getgenv().AutoCandy then return true
     elseif getgenv().AutoFarm_Level and not VerifyEliteBoss() then return true
@@ -1462,7 +1498,7 @@ local function Configure(Farm)
   elseif Farm == "Fruit" then
     if getgenv().AutoSecondSea and PlayerLevel.Value >= 700 then return true
     elseif VerifyRaidPirate() then return true
-    elseif getgenv().AutoFarmRaid and TimerG.Visible then return true
+    elseif getgenv().AutoFarmRaid and Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible then return true
     elseif VerifyNPC("Awakened Ice Admiral") and getgenv().AutoRengoku then return true
     elseif VerifyNPC("Darkbeard") and getgenv().AutoDarkbeard then return true
     elseif VerifyNPC("Soul Reaper") and getgenv().AutoSoulReaper then return true
@@ -1470,7 +1506,22 @@ local function Configure(Farm)
     elseif VerifyNPC("Cake Prince") and getgenv().AutoCakePrince then return true
     elseif VerifyNPC("Dough King") and getgenv().AutoCakePrince then return true
     elseif VerifyTool("God's Chalice") and getgenv().AutoRipIndra then return true
+    elseif getgenv().TeleportToBerry and BerryFind() then return true
     elseif not FruitFind() then return true
+    end
+   elseif Farm == "Berry" then
+    if getgenv().AutoSecondSea and PlayerLevel.Value >= 700 then return true
+    elseif VerifyRaidPirate() then return true
+    elseif getgenv().AutoFarmRaid and Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible then return true
+    elseif VerifyNPC("Awakened Ice Admiral") and getgenv().AutoRengoku then return true
+    elseif VerifyNPC("Darkbeard") and getgenv().AutoDarkbeard then return true
+    elseif VerifyNPC("Soul Reaper") and getgenv().AutoSoulReaper then return true
+    elseif VerifyTool("Hallow Essence") and getgenv().AutoSoulReaper then return true
+    elseif VerifyNPC("Cake Prince") and getgenv().AutoCakePrince then return true
+    elseif VerifyNPC("Dough King") and getgenv().AutoCakePrince then return true
+    elseif VerifyTool("God's Chalice") and getgenv().AutoRipIndra then return true
+    elseif getgenv().TeleportToFruit and FruitFind() then return true
+    elseif not BerryFind() then return true
     end
   elseif Farm == "Bone" then
     if getgenv().AutoFarm_Level then return true
@@ -1480,9 +1531,11 @@ local function Configure(Farm)
     elseif VerifyNPC("Soul Reaper") and getgenv().AutoSoulReaper then return true
     elseif VerifyNPC("rip_indra True Form") and getgenv().AutoRipIndra then return true
     elseif getgenv().TeleportToFruit and FruitFind() then return true
+    elseif getgenv().TeleportToBerry and BerryFind() then return true
     end
   elseif Farm == "Ectoplasm" then
     if getgenv().TeleportToFruit and FruitFind() then return true
+    elseif getgenv().TeleportToBerry and BerryFind() then return true
     elseif getgenv().AutoCursedCaptain and VerifyNPC("Cursed Captain") then return true
     end
   elseif Farm == "Hallow Boss" then
@@ -1490,7 +1543,7 @@ local function Configure(Farm)
     elseif getgenv().AutoRipIndra and VerifyNPC("rip_indra True Form") then
     end
   elseif Farm == "Raid" then
-    if getgenv().TeleportToFruit and FruitFind() and not TimerG.Visible then return true
+    if getgenv().TeleportToFruit and FruitFind() and not Player.PlayerGui.Main.TopHUDList.RaidTimer.Visible then return true
     end
   elseif Farm == "Don Swan" then
     if getgenv().AutoFarm_Level and not VerifyNPC("Don Swan") then return true
@@ -1518,6 +1571,17 @@ local function Configure(Farm)
     elseif not VerifyTool("God's Chalice") and not VerifyNPC("rip_indra True Form") and getgenv().AutoFarmBone then return true
     elseif not VerifyTool("God's Chalice") and not VerifyNPC("rip_indra True Form") and getgenv().AutoCakePrince then return true
     elseif not VerifyTool("God's Chalice") and not VerifyNPC("rip_indra True Form") and getgenv().AutoCakePrince then return true
+    end
+  end
+end
+local function GetButton()
+  local Summoner = workspace.Map["Boat Castle"].Summoner
+  local Circle = Summoner:FindFirstChild("Circle")
+  if Circle then
+    for _,part in pairs(Circle:GetChildren()) do
+      if part and part.Name == "Part" and part:FindFirstChild("Part") and part.Part.BrickColor ~= BrickColor.new("Lime green") then
+        return part.Part
+      end
     end
   end
 end
@@ -1663,11 +1727,11 @@ local toPos11, toPos22, toPos33, toPos44 = true
       if plrH and plrH.Sit then plrH.Sit = false end
      PlayerTP(workspace.Map.MysticIsland.WorldPivot)
     elseif not Boat then
-      local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-6123, 16, -2247)).Magnitude
+      local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-16916, 9, 508)).Magnitude
       if BuyBoatDistance <= 5 then
         FireRemote("BuyBoat", "Guardian")
       else
-        PlayerTP(CFrame.new(-6123, 16, -2247))
+        PlayerTP(CFrame.new(-16916, 9, 508))
       end
     elseif Boat:FindFirstChild("VehicleSeat") then
       local plrChar = Player.Character
@@ -1729,11 +1793,11 @@ local toPos11, toPos22, toPos33, toPos44 = true
       if plrH and plrH.Sit then plrH.Sit = false end
      PlayerTP(workspace.Map.PrehistoricIsland.WorldPivot)
     elseif not Boat then
-      local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-6123, 16, -2247)).Magnitude
+      local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-16916, 9, 508)).Magnitude
       if BuyBoatDistance <= 5 then
         FireRemote("BuyBoat", "Guardian")
       else
-        PlayerTP(CFrame.new(-6123, 16, -2247))
+        PlayerTP(CFrame.new(-16916, 9, 508))
       end
     elseif Boat:FindFirstChild("VehicleSeat") then
       local plrChar = Player.Character
@@ -1815,11 +1879,11 @@ local toPos11, toPos22, toPos33, toPos44 = true
         PlayerTP(KitsuneIsland.WorldPivot)
       end
     elseif not Boat then
-      local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-6123, 16, -2247)).Magnitude
+      local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-16916, 9, 508)).Magnitude
       if BuyBoatDistance <= 5 then
         FireRemote("BuyBoat", "Guardian")
       else
-        PlayerTP(CFrame.new(-6123, 16, -2247))
+        PlayerTP(CFrame.new(-16916, 9, 508))
       end
     elseif Boat:FindFirstChild("VehicleSeat") then
       local plrChar = Player.Character
@@ -2032,11 +2096,11 @@ local function AutoFarmSea()
     local Boat3 = GetKillBoat("FishBoat")    
     if getgenv().PanicMode and InPanicMode and Boat then
     elseif not Boat then
-      local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-6123, 16, -2247)).Magnitude
+      local BuyBoatDistance = (plrChar.PrimaryPart.Position - Vector3.new(-16916, 9, 508)).Magnitude
       if BuyBoatDistance <= 5 then
         FireRemote("BuyBoat", "Guardian")
       else
-        PlayerTP(CFrame.new(-6123, 16, -2247))
+        PlayerTP(CFrame.new(-16916, 9, 508))
       end     
     elseif getgenv().Terrorshark and Terrorshark and Terrorshark:FindFirstChild("HumanoidRootPart") then
       PlayerTP(Terrorshark.HumanoidRootPart.CFrame * CFrame.new(0, 40, 50))
@@ -5123,6 +5187,37 @@ table.insert(AFKOptions, FruitAndRaid:AddToggle({
     end)
   end
 }))
+table.insert(AFKOptions, FruitAndRaid:AddToggle({
+  Name = "Teleport to Berry",
+  Flag = "Berry/Teleport",
+  Callback = function(Value)
+    getgenv().TeleportToBerry = Value
+    task.spawn(function()
+      while getgenv().TeleportToBerry do task.wait()
+        if Configure("Berry") then getgenv().TeleportingToBerry = false
+        else
+          local Fruit = BerryFind()
+          if Fruit then
+            PlayerTP(Fruit.CFrame)
+            for _, v in ipairs(workspace:GetDescendant()) do
+            if string.find(v.Name, "Berry") then
+                for _, k in ipairs(v:GetChildren()) do
+                    if k:IsA("MeshPart") or ("Part") then
+                        _ = v:FindFirstChildOfClass("ProximityPrompt", true)
+                            fireproximityprompt(_)
+                        end
+                    end
+                end
+            end
+            getgenv().TeleportingToBerry = true
+          else
+            getgenv().TeleportingToBerry = false
+          end
+        end
+      end
+    end)
+  end
+}))
 FruitAndRaid:AddToggle({
 	Name = "Bring Fruits",
 	Default = false,
@@ -5147,88 +5242,28 @@ end
 end)
 end)
 FruitAndRaid:AddToggle({
-	Name = "Hop When No Fruits",
+	Name = "Bring Berry",
 	Default = false,
 	Callback = function(Value)
-		_G.HopWhenNoFruits = Value
+	   getgenv().BringFruit = Value
 	end
 })
-local LP = Players.LocalPlayer
-local Players = game:GetService("Players")
-local function isFruitsOnServer() 
-        for i,v in pairs(game.Workspace:GetChildren()) do
-            if v.Name ~= 'Blox Fruit Dealer' then
-                if string.find(v.Name, 'Fruit') then
-                    return true
-                end
-            end
-        end
-        return false
-    end
-local function isWorthFruitInInventory()
-        for i,v in pairs(LP.Backpack:GetChildren()) do 
-            if string.find(v.Name, ' Fruit') then
-                if getFruitWorth(v.Name) >= 1000000 then return true end
-            end
-        end
-        for i,v in pairs(LP.Character:GetChildren()) do 
-            if string.find(v.Name, ' Fruit') then
-                if getFruitWorth(v.Name) >= 1000000 then return true end
-            end
-        end
-        return false
-    end    
-    local function isFruitsInInventory()
-        for i,v in pairs(LP.Backpack:GetChildren()) do 
-            if string.find(v.Name, ' Fruit') then
-                return true
-            end
-        end
-        for i,v in pairs(LP.Character:GetChildren()) do 
-            if string.find(v.Name, ' Fruit') then
-                return true
-            end
-        end
-        return false
-    end
-local function getFruitWorth(fruitName)
-        worth = {
-            ["Quake Fruit"] = 1000000,
-            ["Buddha Fruit"] = 1200000,
-            ["Love Fruit"] = 1300000,
-            ["Spider Fruit"] = 1500000,
-            ["Sound Fruit"] = 1700000,
-            ["Phoenix Fruit"] = 1800000,
-            ["Portal Fruit"] = 1900000,
-            ["Rumble Fruit"] = 2100000,
-            ["Pain Fruit"] = 2300000,
-            ["Blizzard Fruit"] = 2400000,
-            ["Gravity Fruit"] = 2500000,
-            ["Mammoth Fruit"] = 2700000,
-            ["T-Rex Fruit"] = 2700000,
-            ["Dough Fruit"] = 2800000,
-            ["Shadow Fruit"] = 2900000,
-            ["Venom Fruit"] = 3000000,
-            ["Control Fruit"] = 3200000,
-            ["Spirit Fruit"] = 3400000,
-            ["Dragon Fruit"] = 3500000,
-            ["Leopard Fruit"] = 5000000,
-            ["Kitsune Fruit"] = 8000000,
-        }
-        return worth[fruitName] or 0
-    end
 spawn(function()
 pcall(function()
 while wait() do
-if _G.HopWhenNoFruits then
+if getgenv().BringBerry then
 pcall(function()
-wait(5)
-if not isFruitsOnServer() and _G.HopWhenNoFruits then
-                            ServerHop()
-                    end
-                        if not isWorthFruitInInventory() and not isFruitsInInventory() and not isFruitsOnServer() and _G.HopWhenNoFruits then
-                            ServerHop()
+for _, v in ipairs(workspace:GetDescendant()) do
+            if string.find(v.Name, "Berry") then
+                for _, k in ipairs(v:GetChildren()) do
+                    if k:IsA("MeshPart") or ("Part") then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = k.CFrame
+                        _ = v:FindFirstChildOfClass("ProximityPrompt", true)
+                            fireproximityprompt(_)
                         end
+                    end
+                end
+            end
  end)
 end
 end
@@ -6831,38 +6866,8 @@ end
 end)
 end)
 end
-if Sea3 or Sea2 then
-QuestsTabs:AddSection({"Haki Color"})
-local ColorHaki = QuestsTabs:AddParagraph({""})
-local KuyMassDa = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("ColorsDealer", "1")
-spawn(function()
-    pcall(function()
-        while wait() do
-            if game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("ColorsDealer", "1") then
-                ColorHaki:SetTitle("Haki Dealer is Selling : "..(KuyMassDa))
-            else
-                ColorHaki:SetTitle("Not Found Haki Dealer")
-            end
-        end
-    end)
-end)
-table.insert(AFKOptions, QuestsTabs:AddToggle({
-  Name = "Auto Buy Haki Color",
-  Flag = "Buy/HakiColor",
-  Callback = function(Value)
-    getgenv().AutoBuyHakiColor = Value
-    task.spawn(function()
-      while getgenv().AutoBuyHakiColor do task.wait(0.5)
-        pcall(function()
-          FireRemote("ColorsDealer", "1")
-          FireRemote("ColorsDealer", "2")
-        end)
-      end
-    end)
-  end
-}))
-end
 if Sea3 then
+QuestsTabs:AddSection({"Haki Quest"})
   QuestsTabs:AddToggle({
     Name = "Auto Rainbow Haki",
     Callback = function(Value)
@@ -7321,6 +7326,9 @@ end})
 Visual:AddToggle({Name = "ESP Fruits",Callback = function(Value)
   getgenv().EspFruits = Value;EspFruits()
 end, Flag = "ESP/Fruits"})
+Visual:AddToggle({Name = "ESP Berry",Callback = function(Value)
+  getgenv().EspBerry = Value;EspBerry()
+end, Flag = "ESP/Berry"})
 Visual:AddToggle({Name = "ESP Chests < Near >",Callback = function(Value)
   getgenv().EspChests = Value;EspChests()
 end})
