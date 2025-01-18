@@ -603,32 +603,46 @@ end
 local Net = game:GetService("ReplicatedStorage").Modules.Net
 local RegisterAttack = Net:WaitForChild("RE/RegisterAttack")
 local RegisterHit = Net:WaitForChild("RE/RegisterHit")
-function FastAttack2()
-if getgenv().MethodAttack == "Attack Players" then
-  for _, Enemy in workspace.Characters:GetChildren() do
-    if Enemy.Name ~= game.Players.LocalPlayer.Name and Enemy:FindFirstChild("HumanoidRootPart") then
-      RegisterAttack:FireServer(0)  
-      RegisterHit:FireServer(Enemy.HumanoidRootPart)
+local Characters = workspace.Characters
+local Enemies = workspace.Enemies
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local module = {
+  NextAttack = 0,
+  Distance = 100,
+  attackMobs = true,
+  attackPlayers = true
+}
+function module:GetBladeHits()
+  local BladeHits = {}  
+  local Character = Player.Character  
+  for _, Enemy in Characters:GetChildren() do
+    if Enemy ~= Character and Player:DistanceFromCharacter(Enemy.PrimaryPart.Position) < self.Distance then
+      table.insert(BladeHits, Enemy.HumanoidRootPart)
     end
-   end
   end
-  if getgenv().MethodAttack == "Attack Mobs" then
-  for _, Enemy in workspace.Enemies:GetChildren() do
-    if Enemy:FindFirstChild("HumanoidRootPart") then
-      RegisterAttack:FireServer(0)  
-      RegisterHit:FireServer(Enemy.HumanoidRootPart)
+  for _, Enemy in Enemies:GetChildren() do
+    if Player:DistanceFromCharacter(Enemy.PrimaryPart.Position) < self.Distance then
+      table.insert(BladeHits, Enemy.HumanoidRootPart)
     end
   end  
- end
+  return BladeHits
+end
+function module:attack()
+  local BladeHits = self:GetBladeHits()  
+  RegisterAttack:FireServer(0)  
+  for _, Hit in BladeHits do
+    RegisterHit:FireServer(Hit)
+  end
 end
 local function PlayerClick()
-FastAttack2()
+module:attack()
 end
 local function FastAttack()
   task.spawn(function()
     while getgenv().FastAttack do task.wait()
     if not getgenv().AutoFarmMastery then
-      FastAttack2()
+      module:attack()
     end
     end
   end)
