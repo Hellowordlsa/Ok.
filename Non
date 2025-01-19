@@ -103,6 +103,7 @@ task.spawn(function()
       or getgenv().AutoChestBypass
       or getgenv().TpPre
       or getgenv().AutoPre
+      or getgenv().KillGolem
       or getgenv().AutoPrehistoricIsland then
         getgenv().OnFarm = true
       else
@@ -3397,13 +3398,31 @@ pcall(function()
 while wait() do
 if getgenv().KillGolem then
 pcall(function()
-for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                  if v:IsA("Model") and v. Name == "Lava Golem" and v:FindFirstChild("Humanoid") then
-sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 112412400000)
-sethiddenproperty(game.Players.LocalPlayer, "MaxSimulationRadius", 112412400000)
-                            v.Humanoid.Health = 0
+ for _, Enemy in workspace.Enemies:GetChildren() do
+    if Enemy.Name == "Lava Golem" and Enemy:FindFirstChild("HumanoidRootPart") and Enemy.Humanoid.Health > 0 then
+    PlayerTP(Enemy.HumanoidRootPart.CFrame + getgenv().FarmPos)
+      pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemy)end)     
                         end
                         end
+ end)
+end
+end
+end)
+end) 
+spawn(function()
+pcall(function()
+while wait(2) do
+if getgenv().KillGolem then
+pcall(function()
+ for _, Enemy in workspace.Enemies:GetChildren() do
+      local EnemiePP = Enemy.PrimaryPart 
+     if Enemy.Name == "Lava Golem" and Enemy.Humanoid.Health > 0 and Enemy.Humanoid.Health ~= Enemy.Humanoid.MaxHealth then
+        Enemy.Humanoid.Health = 0
+        EnemiePP.Size = Vector3.new(75, 75, 75)
+        EnemiePP.CanCollide = false
+        sethiddenproperty(Player, "SimulationRadius", math.huge)
+        end
+        end
  end)
 end
 end
