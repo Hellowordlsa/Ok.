@@ -609,7 +609,7 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local module = {
   NextAttack = 0,
-  Distance = 100,
+  Distance = 51,
   attackMobs = true,
   attackPlayers = true
 }
