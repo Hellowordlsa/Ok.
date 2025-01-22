@@ -3214,28 +3214,76 @@ end
   if Sea3 then
   AutoSea:AddSection({"Kitsune"})
   local KILabel = AutoSea:AddParagraph({"Kitsune Island : Not Spawned"})
-  --[[local FullMoon = AutoSea:AddParagraph({""})
+  function MoonTextureId()
+	if L_23_ then
+		return game:GetService("Lighting").FantasySky.MoonTextureId
+	elseif L_24_ then
+		return game:GetService("Lighting").FantasySky.MoonTextureId
+	elseif L_25_ then
+		return game:GetService("Lighting").Sky.MoonTextureId
+	end
+end;
+function CheckMoonTexture()
+	moon8 = "http://www.roblox.com/asset/?id=9709150401"
+	moon7 = "http://www.roblox.com/asset/?id=9709150086"
+	moon6 = "http://www.roblox.com/asset/?id=9709149680"
+	moon5 = "http://www.roblox.com/asset/?id=9709149431"
+	moon4 = "http://www.roblox.com/asset/?id=9709149052"
+	moon3 = "http://www.roblox.com/asset/?id=9709143733"
+	moon2 = "http://www.roblox.com/asset/?id=9709139597"
+	moon1 = "http://www.roblox.com/asset/?id=9709135895"
+	bluemoon = "http://www.roblox.com/asset/?id=4303207962"
+	moonreal = MoonTextureId()
+	default = "No Full Moon"
+	if moonreal == bluemoon then
+	default = "Blue Moon"		
+	end
+	if moonreal == moon5 or moonreal == moon4 then
+		if moonreal == moon5 then
+			default = "Full Moon"		
+		elseif moonreal == moon4 then
+			default = "Next Night"
+		end
+	end;
+	return default
+end;
+function ClockTime()
+	return math.floor(game.Lighting.ClockTime)
+end;
+function CheckMoon()
+	local L_282_ = game.Lighting;
+	local L_283_ = L_282_.ClockTime;
+	if L_283_ >= 18 or L_283_ < 5 then
+		GameTime = "Night"
+	else
+		GameTime = "Day"
+	end;
+	if CheckMoonTexture() == "Full Moon" and L_283_ <= 5 then
+		return tostring("Will End Moon In " .. math.floor(5 - L_283_) .. " Minutes")
+	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 5 and L_283_ < 12) then
+		return tostring("Fake Moon")
+	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 12 and L_283_ < 18) then
+		return tostring("Will Full Moon In " .. math.floor(18 - L_283_) .. " Minutes")
+	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 18 and L_283_ <= 24) then
+		return tostring("Will End Moon In " .. math.floor(24 + 6 - L_283_) .. " Minutes")
+	end;
+	if CheckMoonTexture() == "Next Night" and L_283_ < 12 then
+		return tostring("Will Full Moon In " .. math.floor(18 - L_283_) .. " Minutes")
+	elseif CheckMoonTexture() == "Next Night" and L_283_ > 12 then
+		return tostring("Will Full Moon In " .. math.floor(18 + 12 - L_283_) .. " Minutes")
+	end;
+	if CheckMoonTexture() == "No Full Moon" then
+		return tostring("No Full Moon")
+	end
+end;
+  local FullMoon = AutoSea:AddParagraph({""})
   spawn(function()
     while task.wait() do
         pcall(function()
-             if game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149431" then
-                        FullMoon:SetTitle("🌑 : Full Moon 100%")
-            elseif game:GetService("Lighting").Sky.MoonTextureId=="rbxassetid://15493317929" then
-                        FullMoon:SetTitle("🌌 : Blue Moon 100%")
-                    elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149052" then
-                        FullMoon:SetTitle("🌒 : Full Moon 75%")
-                    elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709143733" then
-                        FullMoon:SetTitle("🌓 : Full Moon 50%")
-                    elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709150401" then
-                        FullMoon:SetTitle("🌗 : Full Moon 25%")
-                    elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149680" then
-                        FullMoon:SetTitle("🌖 : Full Moon 15%")
-                    else
-                        FullMoon:SetTitle("🌚 : Full Moon 0%")
-                    end
+                        FullMoon:SetTitle(CheckMoon())
                 end)
             end
-end)]]
+end)
 AutoSea:AddSlider({
 	Name = "Set To Trade Azure Ember",
 	Min = 0,
@@ -3411,7 +3459,7 @@ end)
 end) 
 spawn(function()
 pcall(function()
-while wait(2) do
+while wait(5) do
 if getgenv().KillGolem then
 pcall(function()
  for _, Enemy in workspace.Enemies:GetChildren() do
@@ -3616,10 +3664,18 @@ spawn(function()
         spawn(function()
             while wait() do
                 pcall(function()
-                    if BribeLevel == -1 then
-                        Spy:SetTitle("Bribe: Complete 20 Sea Events")
-                    else
-                        Spy:SetTitle("Bribe: " .. tostring(BribeLevel) .. '/5')
+                    if BribeLevel == 1 then
+                        Spy:SetTitle("Bribe: I Don't Know Anything Yet")
+                     elseif BribeLevel == 2 then
+                        Spy:SetTitle("Bribe: I Want Fragments")
+                       elseif BribeLevel == 3 then
+                       Spy:SetTitle("Bribe: I Want Fragments")
+                       elseif BribeLevel == 4 then
+                       Spy:SetTitle("Bribe: I Want Fragments")
+                       elseif BribeLevel == 5 then
+                       Spy:SetTitle("Leviathan Is Out There!")
+                       else
+                      Spy:SetTitle("What is Bribe? You account don't know it yet")
                     end
                 end)
             end
@@ -3729,28 +3785,14 @@ end
 if Sea3 then
   local MirageTab = Window:MakeTab({"Race V4", "User"})
 MirageTab:AddSection({"Mirage"})
- --[[local FullMoon = MirageTab:AddParagraph({""})
+ local FullMoon = MirageTab:AddParagraph({""})
   spawn(function()
     while task.wait() do
         pcall(function()
-             if game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149431" then
-                        FullMoon:SetTitle("🌑 : Full Moon 100%")
-            elseif game:GetService("Lighting").Sky.MoonTextureId=="rbxassetid://15493317929" then
-                        FullMoon:SetTitle("🌌 : Blue Moon 100%")
-                    elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149052" then
-                        FullMoon:SetTitle("🌒 : Full Moon 75%")
-                    elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709143733" then
-                        FullMoon:SetTitle("🌓 : Full Moon 50%")
-                    elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709150401" then
-                        FullMoon:SetTitle("🌗 : Full Moon 25%")
-                    elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149680" then
-                        FullMoon:SetTitle("🌖 : Full Moon 15%")
-                    else
-                        FullMoon:SetTitle("🌚 : Full Moon 0%")
-                    end
+                        FullMoon:SetTitle(CheckMoon())
                 end)
             end
-end)]]
+end)
 local Mirragecheck = MirageTab:AddParagraph({""})
 spawn(function()
     pcall(function()
@@ -3902,24 +3944,6 @@ end
 end
 end)
 end)
-MirageTab:AddButton({
-	Name = "Check Moon [Image]",
-	Callback = function()
-        local ScreenGui = Instance.new("ScreenGui")
-		local MoonImg = Instance.new("ImageLabel")
-		ScreenGui.Name = "FullMoonLibrary"
-		ScreenGui.Parent = game:GetService("CoreGui")
-		ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-		MoonImg.Name = "MoonImg"
-		MoonImg.Parent = ScreenGui
-		MoonImg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		MoonImg.BackgroundTransparency = 1.000
-		MoonImg.Size = UDim2.new(0, 100, 0, 100)
-		MoonImg.Image = game:GetService("Lighting").Sky.MoonTextureId
-		wait(5)		
-		game:GetService("CoreGui"):FindFirstChild("FullMoonLibrary"):Destroy() 
-	end
-})
   MirageTab:AddSection({"Race V4"})
   function CheckAcientOneStatus()
     if not game.Players.LocalPlayer.Character:FindFirstChild("RaceTransformed") then
@@ -5576,7 +5600,7 @@ spawn(function()
   })
 spawn(function()
 pcall(function()
-while wait(15) do
+while wait(5) do
 if getgenv().AutoFarmRaid then
 pcall(function()
  for _, Enemy in workspace.Enemies:GetChildren() do
@@ -7426,6 +7450,42 @@ task.spawn(function()
   hookfunction(error, function()end)
   hookfunction(warn, function()end)
 end)
+local L_225_ = {
+			["AbuseReportScreenshotPercentage"] = "0",
+			["AbuseReportScreenshot"] = "False",
+			["DFFlagAbuseReportScreenshot"] = "False",
+			["CrashPadUploadToBacktraceToBacktraceBaseUrl"] = "",
+			["CrashUploadToBacktracePercentage"] = "0",
+			["CrashUploadToBacktraceBlackholeToken"] = "",
+			["CrashUploadToBacktraceWindowsPlayerToken"] = ""
+		}
+		local function L_226_func(L_227_arg0)
+			L_227_arg0 = L_227_arg0:gsub("^DFInt", "")
+			L_227_arg0 = L_227_arg0:gsub("^DFFlag", "")
+			L_227_arg0 = L_227_arg0:gsub("FString", "")
+			L_227_arg0 = L_227_arg0:gsub("FLog", "")
+			L_227_arg0 = L_227_arg0:gsub("^FFlag", "")
+			L_227_arg0 = L_227_arg0:gsub("^DFint", "")
+			L_227_arg0 = L_227_arg0:gsub("^FInt", "")
+			return L_227_arg0
+		end;
+		if setfflag then
+			task.spawn(function()
+				local L_228_ = os.clock()
+				for L_229_forvar0, L_230_forvar1 in next,L_225_ do
+					pcall(function()
+						if getfflag(L_226_func(L_229_forvar0)) then
+							setfflag(L_226_func(L_229_forvar0), L_230_forvar1)
+						elseif getfflag(L_229_forvar0) then
+							setfflag(L_229_forvar0, L_230_forvar1)
+						end
+					end)
+				end;
+				print("|DEBUG| Anti Ban Loaded in: " .. os.clock() - L_228_)
+			end)
+		else
+			print("|DEBUG| Anti Ban not support this Executor!")
+		end
 task.spawn(function()
 	Fluent:Notify({
 		Title = "OMG Hub",
