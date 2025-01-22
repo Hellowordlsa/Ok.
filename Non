@@ -5600,7 +5600,7 @@ spawn(function()
   })
 spawn(function()
 pcall(function()
-while wait(5) do
+while wait(10) do
 if getgenv().AutoFarmRaid then
 pcall(function()
  for _, Enemy in workspace.Enemies:GetChildren() do
