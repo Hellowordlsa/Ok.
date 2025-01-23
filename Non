@@ -5228,7 +5228,7 @@ FruitAndRaid:AddToggle({
 	Name = "Bring Berry",
 	Default = false,
 	Callback = function(Value)
-	   getgenv().BringFruit = Value
+	   getgenv().BringBerry = Value
 	end
 })
 spawn(function()
