@@ -3259,21 +3259,23 @@ function CheckMoon()
 		GameTime = "Day"
 	end;
 	if CheckMoonTexture() == "Full Moon" and L_283_ <= 5 then
-		return tostring("Will End Moon In " .. math.floor(5 - L_283_) .. " Minutes")
+		return tostring("🌑: Will End Moon In " .. math.floor(5 - L_283_) .. " Minutes")
 	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 5 and L_283_ < 12) then
-		return tostring("Fake Moon")
+		return tostring("🌑: Fake Moon")
+    elseif CheckMoonTexture() == "Blue Moon" then
+		return tostring("🌌: Blue Moon")
 	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 12 and L_283_ < 18) then
-		return tostring("Will Full Moon In " .. math.floor(18 - L_283_) .. " Minutes")
+		return tostring("🌑: Will Full Moon In " .. math.floor(18 - L_283_) .. " Minutes")
 	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 18 and L_283_ <= 24) then
-		return tostring("Will End Moon In " .. math.floor(24 + 6 - L_283_) .. " Minutes")
+		return tostring("🌑: Will End Moon In " .. math.floor(24 + 6 - L_283_) .. " Minutes")
 	end;
 	if CheckMoonTexture() == "Next Night" and L_283_ < 12 then
-		return tostring("Will Full Moon In " .. math.floor(18 - L_283_) .. " Minutes")
+		return tostring("🌑: Will Full Moon In " .. math.floor(18 - L_283_) .. " Minutes")
 	elseif CheckMoonTexture() == "Next Night" and L_283_ > 12 then
-		return tostring("Will Full Moon In " .. math.floor(18 + 12 - L_283_) .. " Minutes")
+		return tostring("🌑: Will Full Moon In " .. math.floor(18 + 12 - L_283_) .. " Minutes")
 	end;
 	if CheckMoonTexture() == "No Full Moon" then
-		return tostring("No Full Moon")
+		return tostring("🌑: No Full Moon")
 	end
 end;
   local FullMoon = AutoSea:AddParagraph({""})
