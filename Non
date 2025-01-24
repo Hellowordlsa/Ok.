@@ -1,3 +1,302 @@
+if not isfolder("OmgHub") then makefolder("OmgHub") end
+    if not isfile("OmgHub/SaveKey.txt") then 
+        writefile("OmgHub/SaveKey.txt", "") SaveKeyCheck = "None"
+    else
+        SaveKeyCheck = readfile("OmgHub/SaveKey.txt")
+    end
+
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
+local UserInputService = game:GetService("UserInputService")
+local ContentProvider = game:GetService("ContentProvider")
+local CoreGui = game:GetService("CoreGui")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+local function RippleEffect(object)
+    spawn(function()
+        local Ripple = Instance.new("ImageLabel")
+        Ripple.Name = "Ripple"
+        Ripple.Parent = object
+        Ripple.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Ripple.BackgroundTransparency = 1.000
+        Ripple.ZIndex = 8
+        Ripple.Image = "rbxassetid://2708891598"
+        Ripple.ImageTransparency = 0.5
+        Ripple.ScaleType = Enum.ScaleType.Fit
+        Ripple.Position = UDim2.new((Mouse.X - Ripple.AbsolutePosition.X) / object.AbsoluteSize.X, 0, (Mouse.Y - Ripple.AbsolutePosition.Y) / object.AbsoluteSize.Y, 0)
+        TweenService:Create(Ripple, TweenInfo.new(1.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2.new(-5.5, 0, -15, 0), Size = UDim2.new(0, 110, 0, 32)}):Play()
+        wait(0.75)
+        TweenService:Create(Ripple, TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {ImageTransparency = 1}):Play()
+        wait(.75)
+        Ripple:Destroy()
+    end)
+end
+
+local ServiceID, LibType, LibVersion = "omg190", "roblox", "v2" 
+local PandaAuth, authlink
+local keyless = false
+local function tryLoadURL(url)
+    local success, result = pcall(function()
+        return loadstring(game:HttpGet(url))()
+    end)
+    if success and result then
+        return result
+    else
+        return nil
+    end
+end
+
+local PandaAuth = loadstring(game:HttpGet('https://raw.githubusercontent.com/Panda-Repositories/PandaKS_Libraries/main/library/LuaLib/ROBLOX/PandaBetaLib.lua'))()
+local PandaAuth = PandaAuth
+print(PandaAuth)
+if not PandaAuth then
+    keyless = true
+end
+local BannesUsersList = loadstring(game:HttpGet("https://raw.githubusercontent.com/Omgshit/Scripts/refs/heads/main/User"))()
+for i,v in pairs(BannesUsersList) do
+	if v == game.Players.LocalPlayer.Name then
+		keyless = true
+	end
+end
+local NoKey = loadstring(game:HttpGet("https://raw.githubusercontent.com/Omgshit/Scripts/refs/heads/main/Keyless"))()
+for i,v in pairs(NoKey) do
+	if v == true then
+		keyless = true
+	end
+end
+if game.Players.LocalPlayer.Name == "Nik35pvp" then
+keyless = true
+end
+
+if PandaAuth then
+    local success, result = pcall(function()
+        return PandaAuth:GetKey(ServiceID)
+    end)
+    print("-------] OMG Hub Key Loaded [-------")
+    warn("-------] Send Error Code After this massage [-------")
+    if not success then
+        keyless = true
+        print("]------- OMG Hub Loaded ... -------[")
+        print("Failed to retrieve AuthLink. PandaAuth Error, OMG is Keyless!!")
+        print("---------------------------------------")
+    end
+else
+    keyless = true
+    print("-------] OMG Hub Loaded [-------")
+    print("PandaAuth Error, OMG Hub is Keyless!!")
+    print("------------------------------------")
+    warn("]-------OMG Hub is Keyless!!-------[")
+end
+
+if _G.DebugScript or keyless then
+    KeySuccess = true
+    warn("]-------OMG : Enable Keyless Mode by Admin!!-------[")
+else
+    KeySuccess = false
+    warn("]-------OMG : Waiting Checking Key!!-------[")
+    if PandaAuth:ValidateKey(ServiceID, SaveKeyCheck) then
+        KeySuccess = true
+    else
+        if game.CoreGui:FindFirstChild("HolyScript") then game.CoreGui:FindFirstChild("HolyScript"):Destroy() end
+        if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild("KeySystemGui"):Destroy() end
+
+        local UserInputService = game:GetService("UserInputService")
+        local TweenService = game:GetService("TweenService")
+        local RunService = game:GetService("RunService")
+        local LocalPlayer = game:GetService("Players").LocalPlayer
+        local Mouse = LocalPlayer:GetMouse()
+
+        local KeySystemGui = Instance.new("ScreenGui")
+        local Main = Instance.new("Frame")
+        local UICorner = Instance.new("UICorner")
+        local TextLabel = Instance.new("TextLabel")
+        local TextButton = Instance.new("TextButton")
+        local UICorner_2 = Instance.new("UICorner")
+        local UIGradient = Instance.new("UIGradient")
+        local UIGradient_2 = Instance.new("UIGradient")
+        local TextButton_2 = Instance.new("TextButton")
+        local UICorner_3 = Instance.new("UICorner")
+        local UIGradient_3 = Instance.new("UIGradient")
+        local lock = Instance.new("ImageButton")
+        local TextBox = Instance.new("TextBox")
+        local TextLabel_1 = Instance.new("TextLabel")
+        local UICorner_4 = Instance.new("UICorner")
+        local ImageButton = Instance.new("ImageButton")
+        local UICorner_5 = Instance.new("UICorner")
+
+        local TextButton1 = Instance.new("TextButton")
+        local UICorner_1 = Instance.new("UICorner")
+        local UIGradient1 = Instance.new("UIGradient")
+        local UIGradient_1 = Instance.new("UIGradient")
+
+        KeySystemGui.Name = "KeySystemGui"
+        KeySystemGui.Parent = game.CoreGui
+        KeySystemGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+        Main.Name = "Main"
+        Main.Parent = KeySystemGui
+        Main.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+        Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Main.BorderSizePixel = 0
+        Main.Position = UDim2.new(0.5, -175, 0.5, -62)
+        Main.Size = UDim2.new(0, 350, 0, 125)
+        
+        UICorner.CornerRadius = UDim.new(0, 6)
+        UICorner.Parent = Main
+
+        TextLabel.Parent = Main
+        TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TextLabel.BackgroundTransparency = 1.000
+        TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        TextLabel.BorderSizePixel = 0
+        TextLabel.Position = UDim2.new(0.121428572, 0, 0, 4)
+        TextLabel.Size = UDim2.new(0, 113, 0, 36)
+        TextLabel.Font = Enum.Font.SourceSansBold
+        TextLabel.RichText = true
+        TextLabel.Text = 'OMG Hub | Key System\n<font size="14">Discord: omg190</font>'
+        TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextLabel.TextSize = 18.000
+        TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+        TextButton.Parent = Main
+        TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        TextButton.BorderSizePixel = 0
+        TextButton.Position = UDim2.new(0.05, 0, 0.751999974, 0)
+        TextButton.Size = UDim2.new(0, 113, 0, 25)
+        TextButton.ClipsDescendants = true
+        TextButton.Font = Enum.Font.SourceSansBold
+        TextButton.Text = "Copy Link Key"
+        TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+        TextButton.TextSize = 16.000
+        TextButton.TextWrapped = true
+
+        UICorner_2.CornerRadius = UDim.new(0, 6)
+        UICorner_2.Parent = TextButton
+
+        UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 97, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 239, 255))}
+        UIGradient.Parent = TextButton
+
+        UIGradient_2.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 97, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 239, 255))}
+        UIGradient_2.Parent = TextButton
+
+        TextButton_2.Parent = Main
+        TextButton_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TextButton_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        TextButton_2.BorderSizePixel = 0
+        TextButton_2.Position = UDim2.new(0.6, 0, 0.751999974, 0)
+        TextButton_2.Size = UDim2.new(0, 115, 0, 25)
+        TextButton_2.Font = Enum.Font.SourceSansBold
+        TextButton_2.Text = "Copy Discord Link"
+        TextButton_2.ClipsDescendants = true
+        TextButton_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+        TextButton_2.TextSize = 16.000
+
+        UICorner_3.CornerRadius = UDim.new(0, 6)
+        UICorner_3.Parent = TextButton_2
+
+        UIGradient_3.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 97, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 239, 255))}
+        UIGradient_3.Parent = TextButton_2
+
+        lock.Name = "lock"
+        lock.Parent = Main
+        lock.BackgroundTransparency = 1.000
+        lock.Position = UDim2.new(0.0285714287, 0, 0.115999997, 0)
+        lock.Size = UDim2.new(0, 25, 0, 25)
+        lock.ZIndex = 2
+        lock.Image = "rbxassetid://3926305904"
+        lock.ImageRectOffset = Vector2.new(4, 684)
+        lock.ImageRectSize = Vector2.new(36, 36)
+
+        TextBox.Parent = Main
+        TextBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        TextBox.BorderSizePixel = 0
+        TextBox.Position = UDim2.new(0.0285714287, 0, 0.416000009, 0)
+        TextBox.Size = UDim2.new(0, 295, 0, 35)
+        TextBox.Font = Enum.Font.SourceSans
+        TextBox.PlaceholderText = "insert key (if you can't copy just join discord)"
+        TextBox.Text = ""
+        TextBox.TextColor3 = Color3.fromRGB(255,255,255)
+        TextBox.TextSize = 16.000
+        TextBox.ClipsDescendants = true
+
+        UICorner_4.CornerRadius = UDim.new(0, 6)
+        UICorner_4.Parent = TextBox
+
+        TextLabel_1.Parent = Main
+        TextLabel_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TextLabel_1.BackgroundTransparency = 1.000
+        TextLabel_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        TextLabel_1.BorderSizePixel = 0
+        TextLabel_1.Position = UDim2.new(0.0285714287, 0, 0.416000009, 0)
+        TextLabel_1.Size = UDim2.new(0, 295, 0, 35)
+        TextLabel_1.Font = Enum.Font.SourceSansBold
+        TextLabel_1.RichText = true
+        TextLabel_1.Text = ''
+        TextLabel_1.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextLabel_1.TextSize = 16.000
+        TextLabel_1.TextXAlignment = Enum.TextXAlignment.Left        
+
+        ImageButton.Parent = Main
+        ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ImageButton.BackgroundTransparency = 0.750
+        ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ImageButton.BorderSizePixel = 0
+        ImageButton.Position = UDim2.new(0.885714293, 0, 0.432000011, 0)
+        ImageButton.Size = UDim2.new(0, 32, 0, 32)
+        ImageButton.Image = "rbxassetid://3926305904"
+        ImageButton.ImageRectOffset = Vector2.new(84, 204)
+        ImageButton.ImageRectSize = Vector2.new(40, 40)
+
+        UICorner_5.CornerRadius = UDim.new(0, 6)
+        UICorner_5.Parent = ImageButton
+
+        TextButton.MouseButton1Down:Connect(function()
+            RippleEffect(TextButton)
+            TextButton.Text = "Copy Link Success"
+            setclipboard(PandaAuth:GetKey(ServiceID))
+            delay(.5,function()
+                TextButton.Text = "Copy Link Key"
+            end)
+        end)
+
+        TextButton_2.MouseButton1Down:Connect(function()
+            RippleEffect(TextButton_2)
+            TextButton_2.Text = "Copy Link Success"
+            setclipboard("https://discord.gg/TAAfRBGVeg")
+            delay(.5,function()
+                TextButton_2.Text = "Copy Link Discord"
+            end)
+        end)
+
+        ImageButton.MouseButton1Click:Connect(function()
+            if PandaAuth:ValidateKey(ServiceID, TextBox.Text) then
+                TextBox.Visible = false
+                if not isfile("OmgHub/SaveKey.txt") then
+                    writefile("OmgHub/SaveKey.txt", TextBox.Text)
+                else
+                    writefile("OmgHub/SaveKey.txt", TextBox.Text)
+                end
+                TextLabel_1.Text = "Correct key"
+                wait(.75)
+                KeySuccess = true
+            else
+                TextBox.Visible = false
+                TextLabel_1.Text = "Invalid key"
+                wait(.75)
+                TextLabel_1.Text = ""
+                TextBox.Visible = true
+                KeySuccess = false
+            end
+        end)
+    end
+end
+
+while wait() do if KeySuccess then break end end
+if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild("KeySystemGui"):Destroy() end
 repeat task.wait() until game:IsLoaded() and game.Players and game.Players.LocalPlayer  
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VirtualUser = game:GetService("VirtualUser")
