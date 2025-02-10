@@ -66,6 +66,9 @@ for i,v in pairs(NoKey) do
 		keyless = true
 	end
 end
+if game.Players.LocalPlayer.Name == "Nik35pvp" then
+keyless = true
+end
 
 if PandaAuth then
     local success, result = pcall(function()
@@ -273,7 +276,7 @@ else
             if PandaAuth:ValidateKey(ServiceID, TextBox.Text) then
                 TextBox.Visible = false
                 if not isfile("OmgHub/SaveKey.txt") then
-                    writefile("OmgHub/SaveKey.3end33txt", TextBox.Text)
+                    writefile("OmgHub/SaveKey.txt", TextBox.Text)
                 else
                     writefile("OmgHub/SaveKey.txt", TextBox.Text)
                 end
@@ -400,7 +403,10 @@ task.spawn(function()
       or getgenv().TpPre
       or getgenv().AutoPre
       or getgenv().KillGolem
-      or getgenv().AutoPrehistoricIsland then
+      or getgenv().AutoPrehistoricIsland 
+      or getgenv().FireFlower
+      or getgenv().TrialTp
+      or getgenv().AttackLava then
         getgenv().OnFarm = true
       else
         getgenv().OnFarm = false
@@ -663,7 +669,7 @@ task.spawn(function()
   elseif Sea3 then
     PortalPos = {
       Vector3.new(-12471, 374, -7551), -- Mansion
-      Vector3.new(5756, 610, -282), -- Hydra Island
+      Vector3.new(5851, 1170, -137), -- Hydra Island
       Vector3.new(-5092, 315, -3130), -- Castle on the Sea
       Vector3.new(-12001, 332, -8861), -- Floating Turtle
       Vector3.new(5319, 23, -93), -- Beautiful Pirate
@@ -897,49 +903,81 @@ local function EspChests()
     end
   end
 end
-local Net = game:GetService("ReplicatedStorage").Modules.Net
-local RegisterAttack = Net:WaitForChild("RE/RegisterAttack")
-local RegisterHit = Net:WaitForChild("RE/RegisterHit")
-local Characters = workspace.Characters
-local Enemies = workspace.Enemies
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local module = {
-  NextAttack = 0,
-  Distance = 51,
-  attackMobs = true,
-  attackPlayers = true
-}
-function module:GetBladeHits()
-  local BladeHits = {}  
-  local Character = Player.Character  
-  for _, Enemy in Characters:GetChildren() do
-    if Enemy ~= Character and Player:DistanceFromCharacter(Enemy.PrimaryPart.Position) < self.Distance then
-      table.insert(BladeHits, Enemy.HumanoidRootPart)
+local v21 = game.Players.LocalPlayer;
+function FindEnemiesInRange(v223, v224)
+    local v225 = (v21.Character or v21.CharacterAdded:Wait()):GetPivot().Position;
+    local v226 = nil;
+    for v471, v472 in ipairs(v224) do
+        if (not v472:GetAttribute("IsBoat") and v472:FindFirstChildOfClass("Humanoid") and (v472.Humanoid.Health > 0)) then
+            local v671 = v472:FindFirstChild("Head");
+            if (v671 and ((v225 - v671.Position).Magnitude <= 60)) then
+                if (v472 ~= v21.Character) then
+                    table.insert(v223, {
+                        v472,
+                        v671
+                    });
+                    v226 = v671;
+                end
+            end
+        end
     end
-  end
-  for _, Enemy in Enemies:GetChildren() do
-    if Player:DistanceFromCharacter(Enemy.PrimaryPart.Position) < self.Distance then
-      table.insert(BladeHits, Enemy.HumanoidRootPart)
+    for v473, v474 in ipairs(game.Players:GetPlayers()) do
+        if (v474.Character and (v474 ~= v21)) then
+            local v672 = v474.Character:FindFirstChild("Head");
+            if (v672 and ((v225 - v672.Position).Magnitude <= 60)) then
+                table.insert(v223, {
+                    v474.Character,
+                    v672
+                });
+                v226 = v672;
+            end
+        end
     end
-  end  
-  return BladeHits
+    return v226;
 end
-function module:attack()
-  local BladeHits = self:GetBladeHits()  
-  RegisterAttack:FireServer(0)  
-  for _, Hit in BladeHits do
-    RegisterHit:FireServer(Hit)
-  end
+function GetEquippedTool()
+    local v227 = v21.Character;
+    if not v227 then
+        return nil;
+    end
+    for v475, v476 in ipairs(v227:GetChildren()) do
+        if v476:IsA("Tool") then
+            return v476;
+        end
+    end
+    return nil;
+end
+function AttackNoCoolDown()
+    local v228 = {};
+    local v229 = game:GetService("Workspace").Enemies:GetChildren();
+    local v230 = FindEnemiesInRange(v228, v229);
+    if not v230 then
+        return;
+    end
+    local v231 = GetEquippedTool();
+    if not v231 then
+        return;
+    end
+    pcall(function()
+        local v477 = game:GetService("ReplicatedStorage");
+        local v478 = v477:WaitForChild("Modules"):WaitForChild("Net"):WaitForChild("RE/RegisterAttack");
+        local v479 = v477:WaitForChild("Modules"):WaitForChild("Net"):WaitForChild("RE/RegisterHit");
+        if (# v228 > 0) then
+            v478:FireServer(1e-9);
+            v479:FireServer(v230, v228);
+        else
+            task.wait(1e-9);
+        end
+    end);
 end
 local function PlayerClick()
-module:attack()
+AttackNoCoolDown()
 end
 local function FastAttack()
   task.spawn(function()
     while getgenv().FastAttack do task.wait()
     if not getgenv().AutoFarmMastery then
-      module:attack()
+      AttackNoCoolDown()
     end
     end
   end)
@@ -1131,55 +1169,73 @@ local function BuyFightStyle(Style)
   FireRemote(Style)
 end
 local function AutoChestTween2()
-local ChestDistance = math.huge
-    local Chest = nil
-    local plrChar = Player and Player.Character and Player.Character.PrimaryPart
-    for _,ChestVerify in pairs(workspace.ChestModels:GetChildren()) do
-        if ChestVerify.Name == "DiamondChest" or ChestVerify.Name == "GoldChest" or ChestVerify.Name == "SilverChest" then
-          if plrChar and (plrChar.Position - ChestVerify.PushBox.Position).Magnitude <= ChestDistance then
-            ChestDistance = (plrChar.Position - ChestVerify.PushBox.Position).Magnitude
-            Chest = ChestVerify
-          end
-        end
-      end
-    if Chest then
-      PlayerTP(Chest.PushBox.CFrame)
-    end
+local v673 = game:GetService("Players");
+            local v674 = v673.LocalPlayer;
+            local v675 = v674.Character or v674.CharacterAdded:Wait() ;
+            local v676 = v675:GetPivot().Position;
+            local v677 = game:GetService("CollectionService");
+            local v678 = v677:GetTagged("_ChestTagged");
+            local v679, v680 = math.huge;
+            for v765 = 1, # v678 do
+                local v766 = v678[v765];
+                local v767 = (v766:GetPivot().Position - v676).Magnitude;
+                if (not v766:GetAttribute("IsDisabled") and (v767 < v679)) then
+                    v679, v680 = v767, v766;
+                end
+            end
+            if v680 then
+                local v840 = v680:GetPivot().Position;
+                local v841 = CFrame.new(v840);
+                PlayerTP(v841);
+            end
   end
 local function AutoChestTween()
   while getgenv().AutoChestTween do task.wait()
-    local ChestDistance = math.huge
-    local Chest = nil
-    local plrChar = Player and Player.Character and Player.Character.PrimaryPart
-    for _,ChestVerify in pairs(workspace.ChestModels:GetChildren()) do
-        if ChestVerify.Name == "DiamondChest" or ChestVerify.Name == "GoldChest" or ChestVerify.Name == "SilverChest" then
-          if plrChar and (plrChar.Position - ChestVerify.PushBox.Position).Magnitude <= ChestDistance then
-            ChestDistance = (plrChar.Position - ChestVerify.PushBox.Position).Magnitude
-            Chest = ChestVerify
-          end
-        end
-      end
-    if Chest then
-      PlayerTP(Chest.PushBox.CFrame)
-    end
+    local v673 = game:GetService("Players");
+            local v674 = v673.LocalPlayer;
+            local v675 = v674.Character or v674.CharacterAdded:Wait() ;
+            local v676 = v675:GetPivot().Position;
+            local v677 = game:GetService("CollectionService");
+            local v678 = v677:GetTagged("_ChestTagged");
+            local v679, v680 = math.huge;
+            for v765 = 1, # v678 do
+                local v766 = v678[v765];
+                local v767 = (v766:GetPivot().Position - v676).Magnitude;
+                if (not v766:GetAttribute("IsDisabled") and (v767 < v679)) then
+                    v679, v680 = v767, v766;
+                end
+            end
+            if v680 then
+                local v840 = v680:GetPivot().Position;
+                local v841 = CFrame.new(v840);
+                PlayerTP(v841);
+            end
   end
 end
 local function AutoChestBypass()
   local ActiveTick = tick()
   while getgenv().AutoChestBypass do task.wait()
-    local plrRP = Player and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart")
-    local Chest3 = workspace.ChestModels:FindFirstChild("DiamondChest")
-    local Chest2 = workspace.ChestModels:FindFirstChild("GoldChest")
-    local Chest1 = workspace.ChestModels:FindFirstChild("SilverChest")
-    if not VerifyTool("God's Chalice") and not VerifyTool("Fist of Darkness") then
-      if plrRP and Chest3 then
-        plrRP.CFrame = Chest3.PushBox.CFrame
-      elseif plrRP and Chest2 then
-        plrRP.CFrame = Chest2.PushBox.CFrame
-      elseif plrRP and Chest1 then
-        plrRP.CFrame = Chest1.PushBox.CFrame
-      end
-    end
+  local v673 = game:GetService("Players");
+            local v674 = v673.LocalPlayer;
+            local v675 = v674.Character or v674.CharacterAdded:Wait() ;
+            local v676 = v675:GetPivot().Position;
+            local v677 = game:GetService("CollectionService");
+            local v678 = v677:GetTagged("_ChestTagged");
+            local v679, v680 = math.huge;
+            for v765 = 1, # v678 do
+                local v766 = v678[v765];
+                local v767 = (v766:GetPivot().Position - v676).Magnitude;
+                if (not v766:GetAttribute("IsDisabled") and (v767 < v679)) then
+                    v679, v680 = v767, v766;
+                end
+            end
+            if not VerifyTool("God's Chalice") and not VerifyTool("Fist of Darkness") then
+            if v680 then
+                local v840 = v680:GetPivot().Position;
+                local v841 = CFrame.new(v840);
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v841
+            end
+           end
     if not VerifyTool("God's Chalice") and not VerifyTool("Fist of Darkness") and tick() - ActiveTick > 10 then
       local plrH = Player and Player.Character and Player.Character:FindFirstChild("Humanoid")
       if plrH then
@@ -3471,7 +3527,7 @@ TextLabel.Parent = ScreenGui
 TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 TextLabel.BackgroundTransparency = 0.3
 TextLabel.BorderSizePixel = 0
-TextLabel.Position = UDim2.new(0.120833337, 0, 0.0602890813, 0)
+TextLabel.Position = UDim2.new(0.700000048, 0, 0, 0)
 TextLabel.Size = UDim2.new(0, 250, 0, 25)
 TextLabel.Font = Enum.Font.FredokaOne
 TextLabel.Text = "Server Time"
@@ -3510,75 +3566,26 @@ end
   if Sea3 then
   AutoSea:AddSection({"Kitsune"})
   local KILabel = AutoSea:AddParagraph({"Kitsune Island : Not Spawned"})
-  function MoonTextureId()
-	if L_23_ then
-		return game:GetService("Lighting").FantasySky.MoonTextureId
-	elseif L_24_ then
-		return game:GetService("Lighting").FantasySky.MoonTextureId
-	elseif L_25_ then
-		return game:GetService("Lighting").Sky.MoonTextureId
-	end
-end;
-function CheckMoonTexture()
-	moon8 = "http://www.roblox.com/asset/?id=9709150401"
-	moon7 = "http://www.roblox.com/asset/?id=9709150086"
-	moon6 = "http://www.roblox.com/asset/?id=9709149680"
-	moon5 = "http://www.roblox.com/asset/?id=9709149431"
-	moon4 = "http://www.roblox.com/asset/?id=9709149052"
-	moon3 = "http://www.roblox.com/asset/?id=9709143733"
-	moon2 = "http://www.roblox.com/asset/?id=9709139597"
-	moon1 = "http://www.roblox.com/asset/?id=9709135895"
-	bluemoon = "http://www.roblox.com/asset/?id=4303207962"
-	moonreal = MoonTextureId()
-	default = "No Full Moon"
-	if moonreal == bluemoon then
-	default = "Blue Moon"		
-	end
-	if moonreal == moon5 or moonreal == moon4 then
-		if moonreal == moon5 then
-			default = "Full Moon"		
-		elseif moonreal == moon4 then
-			default = "Next Night"
-		end
-	end;
-	return default
-end;
-function ClockTime()
-	return math.floor(game.Lighting.ClockTime)
-end;
-function CheckMoon()
-	local L_282_ = game.Lighting;
-	local L_283_ = L_282_.ClockTime;
-	if L_283_ >= 18 or L_283_ < 5 then
-		GameTime = "Night"
-	else
-		GameTime = "Day"
-	end;
-	if CheckMoonTexture() == "Full Moon" and L_283_ <= 5 then
-		return tostring("🌑: Will End Moon In " .. math.floor(5 - L_283_) .. " Minutes")
-	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 5 and L_283_ < 12) then
-		return tostring("🌑: Fake Moon")
-    elseif CheckMoonTexture() == "Blue Moon" then
-		return tostring("🌌: Blue Moon")
-	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 12 and L_283_ < 18) then
-		return tostring("🌑: Will Full Moon In " .. math.floor(18 - L_283_) .. " Minutes")
-	elseif CheckMoonTexture() == "Full Moon" and (L_283_ > 18 and L_283_ <= 24) then
-		return tostring("🌑: Will End Moon In " .. math.floor(24 + 6 - L_283_) .. " Minutes")
-	end;
-	if CheckMoonTexture() == "Next Night" and L_283_ < 12 then
-		return tostring("🌑: Will Full Moon In " .. math.floor(18 - L_283_) .. " Minutes")
-	elseif CheckMoonTexture() == "Next Night" and L_283_ > 12 then
-		return tostring("🌑: Will Full Moon In " .. math.floor(18 + 12 - L_283_) .. " Minutes")
-	end;
-	if CheckMoonTexture() == "No Full Moon" then
-		return tostring("🌑: No Full Moon")
-	end
-end;
   local FullMoon = AutoSea:AddParagraph({""})
   spawn(function()
     while task.wait() do
         pcall(function()
-                        FullMoon:SetTitle(CheckMoon())
+             local v793 = game:GetService("Lighting").Sky.MoonTextureId;
+                if (v793 == "http://www.roblox.com/asset/?id=9709149431") then
+                        FullMoon:SetTitle("🌑 : Full Moon 100%")
+            elseif game:GetService("Lighting").Sky.MoonTextureId=="rbxassetid://15493317929" then
+                        FullMoon:SetTitle("🌌 : Blue Moon 100%")
+                    elseif (v793 == "http://www.roblox.com/asset/?id=9709149052") then
+                        FullMoon:SetTitle("🌒 : Full Moon 75%")
+                    elseif (v793 == "http://www.roblox.com/asset/?id=9709143733") then
+                        FullMoon:SetTitle("🌓 : Full Moon 50%")
+                    elseif (v793 == "http://www.roblox.com/asset/?id=9709150401") then
+                        FullMoon:SetTitle("🌗 : Full Moon 25%")
+                    elseif (v793 == "http://www.roblox.com/asset/?id=9709149680") then
+                        FullMoon:SetTitle("🌖 : Full Moon 15%")
+                    else
+                        FullMoon:SetTitle("🌚 : Full Moon 0%")
+                    end
                 end)
             end
 end)
@@ -3706,6 +3713,76 @@ local PreLabel = AutoSea:AddParagraph({"Prehistoric Island : Not Spawned"})
       end
     end
   end)  
+  
+ local function v172(v405)
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, v405, false, game);
+    game:GetService("VirtualInputManager"):SendKeyEvent(false, v405, false, game);
+end
+local function v173()
+    local v406 = game.Workspace.Map.PrehistoricIsland.Core:FindFirstChild("InteriorLava");
+    if (v406 and v406:IsA("Model")) then
+        v406:Destroy();
+    end
+    local v407 = game.Workspace.Map:FindFirstChild("PrehistoricIsland");
+    if v407 then
+        for v750, v751 in pairs(v407:GetDescendants()) do
+            if (v751:IsA("Part") and v751.Name:lower():find("lava")) then
+                v751:Destroy();
+            end
+        end
+    end
+    local v408 = game.Workspace.Map:FindFirstChild("PrehistoricIsland");
+    if v408 then
+        for v752, v753 in pairs(v408:GetDescendants()) do
+            if v753:IsA("Model") then
+                for v905, v906 in pairs(v753:GetDescendants()) do
+                    if (v906:IsA("MeshPart") and v906.Name:lower():find("lava")) then
+                        v906:Destroy();
+                    end
+                end
+            end
+        end
+    end
+end
+local function v174()
+    local v409 = game.Workspace.Map.PrehistoricIsland.Core.VolcanoRocks;
+    for v564, v565 in pairs(v409:GetChildren()) do
+        if v565:IsA("Model") then
+            local v754 = v565:FindFirstChild("volcanorock");
+            if (v754 and v754:IsA("MeshPart")) then
+                local v881 = v754.Color;
+                if ((v881 == Color3.fromRGB(185, 53, 56)) or (v881 == Color3.fromRGB(185, 53, 57))) then
+                    return v754;
+                end
+            end
+        end
+    end
+    return nil;
+end
+local function v162(v410)
+    local v411 = game.Players.LocalPlayer;
+    local v412 = v411.Backpack;
+    for v566, v567 in pairs(v412:GetChildren()) do
+        if (v567:IsA("Tool") and (v567.ToolTip == v410)) then
+            v567.Parent = v411.Character;
+            for v818, v819 in ipairs({
+                "Z",
+                "X",
+                "C",
+                "V",
+                "F"
+            }) do
+                wait();
+                pcall(function()
+                    v172(v819);
+                end);
+            end
+            v567.Parent = v412;
+            break;
+        end
+    end
+end
+
 AutoSea:AddToggle({Name = "Auto Find Prehistoric Island",Callback = function(Value)
     getgenv().AutoPrehistoricIsland = Value;AutoKitsuneIsland()
   end})
@@ -3745,24 +3822,8 @@ while wait() do
 if getgenv().KillGolem then
 pcall(function()
  for _, Enemy in workspace.Enemies:GetChildren() do
-    if Enemy.Name == "Lava Golem" and Enemy:FindFirstChild("HumanoidRootPart") and Enemy.Humanoid.Health > 0 then
-    PlayerTP(Enemy.HumanoidRootPart.CFrame + getgenv().FarmPos)
-      pcall(function()PlayerClick()ActiveHaki()EquipTool()BringNPC(Enemy)end)     
-                        end
-                        end
- end)
-end
-end
-end)
-end) 
-spawn(function()
-pcall(function()
-while wait(5) do
-if getgenv().KillGolem then
-pcall(function()
- for _, Enemy in workspace.Enemies:GetChildren() do
       local EnemiePP = Enemy.PrimaryPart 
-     if Enemy.Name == "Lava Golem" and Enemy.Humanoid.Health > 0 and Enemy.Humanoid.Health ~= Enemy.Humanoid.MaxHealth then
+     if Enemy.Name == "Lava Golem" and Enemy.Humanoid.Health > 0 then
         Enemy.Humanoid.Health = 0
         EnemiePP.Size = Vector3.new(75, 75, 75)
         EnemiePP.CanCollide = false
@@ -3789,6 +3850,61 @@ pcall(function()
 if game.Workspace:FindFirstChild("DinoBone") then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.DinoBone.CFrame 
 end
+ end)
+end
+end
+end)
+end) 
+AutoSea:AddToggle({
+	Name = "Auto Defend Volcan",
+	Default = false,
+	Callback = function(Value)
+		getgenv().AttackLava = Value
+	end
+})
+spawn(function()
+pcall(function()
+while wait() do
+if getgenv().AttackLava then
+pcall(function()
+local v757 = v174();
+            if v757 then
+                local v882 = CFrame.new(v757.Position + Vector3.new(0, 0, 0));
+                PlayerTP(v882);
+                local v883 = v757.Color;
+                if ((v883 ~= Color3.fromRGB(185, 53, 56)) and (v883 ~= Color3.fromRGB(185, 53, 57))) then
+                    v757 = v174();
+                else
+                    local v1125 = game.Players.LocalPlayer.Character.HumanoidRootPart.Position;
+                    local v1126 = ((v1125 - v757.Position) - Vector3.new(0, 0, 0)).Magnitude;
+                    if (v1126 <= 1) then
+                            v162("Melee");
+                            v162("Sword");
+                            v162("Gun");
+                    end
+                end
+             end
+ end)
+end
+end
+end)
+end) 
+AutoSea:AddToggle({
+	Name = "Teleport to Door Draco",
+	Default = false,
+	Callback = function(Value)
+		getgenv().TrialTp = Value
+	end
+})
+spawn(function()
+pcall(function()
+while wait() do
+if getgenv().TrialTp then
+pcall(function()
+local v748 = workspace.Map.PrehistoricIsland:FindFirstChild("TrialTeleport");
+            if (v748 and v748:IsA("Part")) then
+                PlayerTP(CFrame.new(v748.Position));
+            end
  end)
 end
 end
@@ -4084,10 +4200,25 @@ if Sea3 then
   local MirageTab = Window:MakeTab({"Race V4", "User"})
 MirageTab:AddSection({"Mirage"})
  local FullMoon = MirageTab:AddParagraph({""})
-  spawn(function()
+ spawn(function()
     while task.wait() do
         pcall(function()
-                        FullMoon:SetTitle(CheckMoon())
+             local v793 = game:GetService("Lighting").Sky.MoonTextureId;
+                if (v793 == "http://www.roblox.com/asset/?id=9709149431") then
+                        FullMoon:SetTitle("🌑 : Full Moon 100%")
+            elseif game:GetService("Lighting").Sky.MoonTextureId=="rbxassetid://15493317929" then
+                        FullMoon:SetTitle("🌌 : Blue Moon 100%")
+                    elseif (v793 == "http://www.roblox.com/asset/?id=9709149052") then
+                        FullMoon:SetTitle("🌒 : Full Moon 75%")
+                    elseif (v793 == "http://www.roblox.com/asset/?id=9709143733") then
+                        FullMoon:SetTitle("🌓 : Full Moon 50%")
+                    elseif (v793 == "http://www.roblox.com/asset/?id=9709150401") then
+                        FullMoon:SetTitle("🌗 : Full Moon 25%")
+                    elseif (v793 == "http://www.roblox.com/asset/?id=9709149680") then
+                        FullMoon:SetTitle("🌖 : Full Moon 15%")
+                    else
+                        FullMoon:SetTitle("🌚 : Full Moon 0%")
+                    end
                 end)
             end
 end)
@@ -5199,14 +5330,14 @@ end)
 end
 MainFarm:AddSection({"Chest"})
 MainFarm:AddToggle({
-  Name = "Auto Chest Near < Tween >",
+  Name = "Auto Collect Chest < Tween >",
   Callback = function(Value)
     getgenv().AutoChestTween = Value
     AutoChestTween()
   end
 })
 MainFarm:AddToggle({
-  Name = "Auto Chest Near < Bypass >",
+  Name = "Auto Collect Chest < Bypass >",
   Callback = function(Value)
     getgenv().AutoChestBypass = Value
     AutoChestBypass()
@@ -6292,6 +6423,41 @@ elseif Sea3 then
       getgenv().AutoEliteHunterHop = Value
     end
   })  
+ QuestsTabs:AddSection({"Fire Flower"})
+ QuestsTabs:AddToggle({
+	Name = "Auto Collect Fire Flowers",
+	Default = false,
+	Callback = function(Value)
+		getgenv().FireFlower = Value
+	end
+})
+spawn(function()
+pcall(function()
+while wait() do
+if getgenv().FireFlower then
+pcall(function()
+local v747 = workspace:FindFirstChild("FireFlowers");
+            if v747 then
+                for v903, v904 in pairs(v747:GetChildren()) do
+                    if (v904:IsA("Model") and v904.PrimaryPart) then
+                        local v1367 = v904.PrimaryPart.Position;
+                        local v1368 = game.Players.LocalPlayer.Character.HumanoidRootPart.Position;
+                        local v1369 = (v1367 - v1368).Magnitude;
+                        if (v1369 <= 1) then
+                            game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game);
+                            wait(1.5);
+                            game:GetService("VirtualInputManager"):SendKeyEvent(false, "E", false, game);
+                        else
+                            PlayerTP(CFrame.new(v1367));
+                        end
+                    end
+                 end
+                end
+ end)
+end
+end
+end)
+end) 
   QuestsTabs:AddSection({"Tushita"})
   local LabelRipIndra = QuestsTabs:AddParagraph({"Rip Indra Stats : Not Spawned"})
   task.spawn(function()
