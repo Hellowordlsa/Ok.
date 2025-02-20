@@ -266,7 +266,7 @@ else
         TextButton_2.MouseButton1Down:Connect(function()
             RippleEffect(TextButton_2)
             TextButton_2.Text = "Copy Link Success"
-            setclipboard("https://discord.gg/TAAfRBGVeg")
+            setclipboard("https://discord.gg/TdStSqtM8p")
             delay(.5,function()
                 TextButton_2.Text = "Copy Link Discord"
             end)
@@ -3558,6 +3558,10 @@ local DiscordLink = Inicio:AddDiscordInvite({
 	Logo = "",
 	Invite = "https://discord.gg/TdStSqtM8p"
 })
+Inicio:AddSection({Name = "Other Scripts"})
+Inicio:AddButton({"Redz Hub Old Version", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Omgshit/Scripts/refs/heads/main/RedzHubOld"))()
+  end})
 local MainFarm = Window:MakeTab({"Farm", "swords"})
 local AutoSea = Window:MakeTab({"Sea", "Waves"})
 if Sea1 or Sea2 then
